@@ -2,4 +2,4 @@
 	email = 
 	name = 
 [core]
-	hooksPath = ~/github/githooks
+	hooksPath = ~/github/laptop/githooks
