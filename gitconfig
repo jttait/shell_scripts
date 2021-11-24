@@ -1,0 +1,5 @@
+[user]
+	email = 
+	name = 
+[core]
+	hooksPath = ~/github/githooks
