@@ -1,3 +1,5 @@
+#!/bin/bash
+
 deleteDirectoryIfExists() {
   if [ -d $1 ]
   then
@@ -58,8 +60,6 @@ sudo apt install nodejs
 sudo apt install snapd
 sudo apt install texlive-xetex
 sudo apt install fzf
-sudo apt install zsh
-sudo apt install powerline fonts-powerline
 sudo apt install restic
 
 # Install Snap packages
@@ -80,7 +80,7 @@ wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/java
 sudo npm install standard --global
 
 # Bash 
-wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc -O ~/.bashrc
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO -O ~/.bashrc
 
 # SDKMAN
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
@@ -115,7 +115,3 @@ sudo add-apt-repository ppa:costamagnagianfranco/borgbackup
 sudo apt update
 sudo apt install borgbackup
 
-# zsh
-git clone https://github.com/jan-auer/zsh-multiline.git ~/.oh-my-zsh/custom/themes/zsh-multiline
-git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
-git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
