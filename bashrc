@@ -8,14 +8,13 @@ case $- in
       *) return;;
 esac
 
-# don't put duplicate lines or lines starting with space in the history.
-# See bash(1) for more options
-HISTCONTROL=ignoreboth
+################################################################################
+# bash history                                                                 #
+################################################################################
 
-# append to the history file, don't overwrite it
-shopt -s histappend
-
-# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+shopt -s histappend # append to the history file, do not overwrite it
+HISTCONTROL=ignoreboth # do not put duplicate lines or lines starting with space
+                       # in the history
 HISTSIZE=1000
 HISTFILESIZE=2000
 
@@ -76,35 +75,43 @@ esac
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
     alias ls='ls --color=auto'
-    #alias dir='dir --color=auto'
-    #alias vdir='vdir --color=auto'
 
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
 fi
 
-# some more ls aliases
+################################################################################
+# ls aliases                                                                   #
+################################################################################
+
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-alias gs="git status"
-alias gd="git diff"
-alias gcm="git commit -m"
+
+################################################################################
+# git aliases                                                                  #
+################################################################################
+
 alias gaa="git add --all"
+alias gbr="git branch"
+alias gch="git checkout"
+alias gcl="git clone"
+alias gcm="git commit -m"
+alias gdf="git diff"
+alias gpl="git pull"
+alias gps="git push"
+alias gst="git status"
+
+################################################################################
+# other aliases                                                                #
+################################################################################
+
+alias clr="clear"
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
-
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
