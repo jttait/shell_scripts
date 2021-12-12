@@ -1,3 +1,5 @@
+#!/bin/bash
+
 B2_KEY_ID=""
 B2_APP_KEY=""
 B2_BUCKET=""

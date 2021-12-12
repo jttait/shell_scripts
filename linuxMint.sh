@@ -57,15 +57,18 @@ sudo apt install terminator
 sudo apt install nodejs
 sudo apt install snapd
 sudo apt install texlive-xetex
+sudo apt install fzf
+sudo apt install zsh
+sudo apt install powerline fonts-powerline
+sudo apt install restic
 
 # Install Snap packages
 sudo snap install duplicity --classic
 sudo snap install bw
-sudo snap install eclipse --classic
 sudo snap refresh
 
 # Vim
-wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vimrc -O ~/.vimrc
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/vimrc -O ~/.vimrc
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
 installAndUpdateVimPackageFromGithub "ale" "https://github.com/dense-analysis/ale"
@@ -77,7 +80,7 @@ wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/java
 sudo npm install standard --global
 
 # Bash 
-wget -N https://raw.githubusercontent.com/jttait/bashrc/master/.bashrc -O ~/.bashrc
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc -O ~/.bashrc
 
 # SDKMAN
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
@@ -107,7 +110,12 @@ sudo apt install docker-ce
 sudo apt install docker-ce-cli
 sudo apt install containerd.io
 
-# Borg Backup
+# borg backup
 sudo add-apt-repository ppa:costamagnagianfranco/borgbackup
 sudo apt update
 sudo apt install borgbackup
+
+# zsh
+git clone https://github.com/jan-auer/zsh-multiline.git ~/.oh-my-zsh/custom/themes/zsh-multiline
+git clone https://github.com/zsh-users/zsh-autosuggestions.git $ZSH_CUSTOM/plugins/zsh-autosuggestions
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git $ZSH_CUSTOM/plugins/zsh-syntax-highlighting
