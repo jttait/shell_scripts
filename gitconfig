@@ -3,3 +3,13 @@
 	name = 
 [core]
 	hooksPath = ~/github/laptop/githooks
+[alias]
+   st = status
+   pl = pull
+   ps = push
+   co = checkout
+   cob = checkout -b
+   del = branch -D
+   cl = clone
+   cm = commit -m 
+   aa = add --all

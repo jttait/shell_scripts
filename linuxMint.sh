@@ -67,28 +67,31 @@ sudo snap install duplicity --classic
 sudo snap install bw
 sudo snap refresh
 
-# Vim
-wget -N https://raw.githubusercontent.com/jttait/laptop/main/vimrc -O ~/.vimrc
+# vim
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 -O ~/.vimrc
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
 installAndUpdateVimPackageFromGithub "ale" "https://github.com/dense-analysis/ale"
 installAndUpdateVimPackageFromGithub "fzf" "https://github.com/junegunn/fzf"
 installAndUpdateVimPackageFromGithub "fzf.vim" "https://github.com/junegunn/fzf.vim"
 
-# JavaScript
+# javascript
 wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim -O ~/.vim/javascript.vim
 sudo npm install standard --global
 
-# Bash 
+# bash 
 wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO -O ~/.bashrc
 
-# SDKMAN
+# git
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA -O ~/.gitconfig
+
+# sdkman
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
 sdk install java 16.0.1.hs-adpt
 sdk install micronaut
 sdk install gradle
 
-# Docker
+# docker
 sudo apt remove docker
 sudo apt remove docker-engine
 sudo apt remove docker.io
@@ -110,7 +113,7 @@ sudo apt install docker-ce
 sudo apt install docker-ce-cli
 sudo apt install containerd.io
 
-# borg backup
+# borg
 sudo add-apt-repository ppa:costamagnagianfranco/borgbackup
 sudo apt update
 sudo apt install borgbackup
