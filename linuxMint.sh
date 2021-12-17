@@ -67,7 +67,6 @@ sudo apt install vim
 sudo apt install vlc
 sudo apt install gimp
 sudo apt install nfs-common
-sudo apt install git
 sudo apt install terminator
 sudo apt install nodejs
 sudo apt install snapd
@@ -81,6 +80,14 @@ sudo snap install intellij-idea-community --classic
 sudo snap install bw
 sudo snap refresh
 
+# git
+sudo apt install git
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA -O ~/.gitconfig
+mkdir ~/.githooks 
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK -O ~/.githooks/pre-commit
+git config --global user.email $GITHUB_USER_EMAIL
+git config --global user.name $GITHUB_USER_NAME
+
 # vim
 wget -N https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 -O ~/.vimrc
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
@@ -93,17 +100,12 @@ installAndUpdateVimPackageFromGithub "fzf.vim" "https://github.com/junegunn/fzf.
 wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim -O ~/.vim/javascript.vim
 sudo npm install standard --global
 
-# git
-wget -N https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA -O ~/.gitconfig
-mkdir ~/.githooks 
-wget -N https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK -O ~/.githooks/pre-commit
-
 # sdkman
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk update
 
-# install java
+# java
 sdk install java 16.0.1.hs-adpt
 sdk install micronaut
 sdk install gradle
