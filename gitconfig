@@ -2,14 +2,15 @@
 	email = 
 	name = 
 [core]
-	hooksPath = ~/github/laptop/githooks
+	hooksPath = ~/.githooks
 [alias]
-   st = status
-   pl = pull
-   ps = push
-   co = checkout
-   cob = checkout -b
-   del = branch -D
+   aa = add --all
+   cb = checkout -b
    cl = clone
    cm = commit -m 
-   aa = add --all
+   co = checkout
+   db = branch -D
+   df = diff
+   pl = pull
+   ps = push
+   st = status

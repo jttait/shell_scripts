@@ -90,20 +90,6 @@ alias la='ls -A'
 alias l='ls -CF'
 
 ################################################################################
-# git aliases                                                                  #
-################################################################################
-
-alias gaa="git add --all"
-alias gbr="git branch"
-alias gch="git checkout"
-alias gcl="git clone"
-alias gcm="git commit -m"
-alias gdf="git diff"
-alias gpl="git pull"
-alias gps="git push"
-alias gst="git status"
-
-################################################################################
 # other aliases                                                                #
 ################################################################################
 

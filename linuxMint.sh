@@ -1,10 +1,13 @@
 #!/bin/bash
 
 deleteDirectoryIfExists() {
-  if [ -d $1 ]
-  then
-    sudo rm -r $1
-  fi
+   if [ -d $1 ]
+   then
+      echo "linuxMint.sh :: Removing directory $1"
+      sudo rm -r $1
+   else
+      echo "linuxMint.sh :: Directory $1 does not exist, not removing"
+   fi
 }
 
 installAndUpdateVimPackageFromGithub() {
@@ -14,10 +17,20 @@ installAndUpdateVimPackageFromGithub() {
   git pull
 }
 
-# Timeshift
+removeAptPackageIfInstalled() {
+   if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
+   then
+      echo "linuxMint.sh :: removing $1"
+      sudo apt remove $1
+   else
+      echo "linuxMint.sh :: $1 not installed, not removing"
+   fi
+}
+
+# timeshift
 sudo timeshift --create --comments "run by newLinuxMint.sh"
 
-# Remove unwanted directories from home directory
+# remove unwanted directories
 deleteDirectoryIfExists "~/Music"
 deleteDirectoryIfExists "~/Videos"
 deleteDirectoryIfExists "~/Templates"
@@ -25,31 +38,31 @@ deleteDirectoryIfExists "~/Pictures"
 deleteDirectoryIfExists "~/Public"
 deleteDirectoryIfExists "~/Documents"
 
-# Update APT
+# apt
 sudo apt update
 sudo apt upgrade
 
-# Setup Python
+# python
 sudo apt install python3-pip
 sudo pip3 install virtualenv
 
-# Remove unwanted programs
-sudo apt remove thunderbird
-sudo apt remove celluloid
-sudo apt remove rhythmbox
-sudo apt remove gnote
-sudo apt remove hexchat
-sudo apt remove pix
-sudo apt remove pix-data
-sudo apt remove hypnotix
-sudo apt remove webapp-manager
-sudo apt remove mpv
-sudo apt remove drawing
-sudo apt remove sticky
-sudo apt remove simple-scan
+# remove unwanted apt packages
+removeAptPackageIfInstalled "thunderbird"
+removeAptPackageIfInstalled "celluloid"
+removeAptPackageIfInstalled "rhythmbox"
+removeAptPackageIfInstalled "gnote"
+removeAptPackageIfInstalled "hexchat"
+removeAptPackageIfInstalled "pix"
+removeAptPackageIfInstalled "pix-data"
+removeAptPackageIfInstalled "hypnotix"
+removeAptPackageIfInstalled "webapp-manager"
+removeAptPackageIfInstalled "mpv"
+removeAptPackageIfInstalled "drawing"
+removeAptPackageIfInstalled "sticky"
+removeAptPackageIfInstalled "simple-scan"
 sudo apt autoremove
 
-# Install Aptitude packages
+# install apt packages
 sudo apt install vim
 sudo apt install vlc
 sudo apt install gimp
@@ -62,8 +75,9 @@ sudo apt install texlive-xetex
 sudo apt install fzf
 sudo apt install restic
 
-# Install Snap packages
+# install snap packages
 sudo snap install duplicity --classic
+sudo snap install intellij-idea-community --classic
 sudo snap install bw
 sudo snap refresh
 
@@ -79,17 +93,23 @@ installAndUpdateVimPackageFromGithub "fzf.vim" "https://github.com/junegunn/fzf.
 wget -N https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim -O ~/.vim/javascript.vim
 sudo npm install standard --global
 
-# bash 
-wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO -O ~/.bashrc
-
 # git
 wget -N https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA -O ~/.gitconfig
+mkdir ~/.githooks 
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK -O ~/.githooks/pre-commit
 
 # sdkman
 curl -s "https://get.sdkman.io?rcupdate=false" | bash
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+sdk update
+
+# install java
 sdk install java 16.0.1.hs-adpt
 sdk install micronaut
 sdk install gradle
+
+# bash 
+wget -N https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO -O ~/.bashrc
 
 # docker
 sudo apt remove docker
