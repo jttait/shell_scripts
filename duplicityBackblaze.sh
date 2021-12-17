@@ -1,6 +1,6 @@
 #!/bin/bash
 
-B2_URL="b2://${BACKBLAZE_B2_KEY_ID}:${BACKBLAZE_B2_APP_KEY}@${BACKBLAZE_B2_BUCKET}"
+B2_URL="b2://${B2_ACCOUNT_ID}:${B2_ACCOUNT_KEY}@${B2_DUPLICITY_BUCKET}"
 
 perform_backup() {
    duplicity --encrypt-key ${DUPLICITY_GPG_KEY} --full-if-older-than 30D --verbosity=5 ${PATH_TO_BACKUP} ${B2_URL}

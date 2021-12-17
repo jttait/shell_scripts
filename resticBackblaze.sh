@@ -1,7 +1,7 @@
 #!/bin/bash
 
 perform_backup() {
-   restic -r ${BACKBLAZE_B2_RESTIC_BUCKET} --verbose backup ${PATH_TO_BACKUP}
+   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${PATH_TO_BACKUP}
 }
 
 echo ""
