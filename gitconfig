@@ -5,6 +5,7 @@
 	hooksPath = ~/.githooks
 [alias]
    aa = add --all
+   br = branch
    cb = checkout -b
    cl = clone
    cm = commit -m 
