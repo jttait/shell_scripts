@@ -1,31 +1,24 @@
 #!/bin/bash
 
-B2_URL="file:///"
-
-BACKUP_DIR="~/backup/"
-RESTORE_DIR="~/restore/"
-
-GPG_KEY=""
-
 perform_backup() {
-   duplicity --encrypt-key ${GPG_KEY} --full-if-older-than 30D --verbosity=5 ${BACKUP_DIR} ${B2_URL}
+   duplicity --encrypt-key ${DUPLICITY_GPG_KEY} --full-if-older-than 30D --verbosity=5 ${PATH_TO_BACKUP} ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 perform_restore() {
-   duplicity restore ${B2_URL} ${RESTORE_DIR} --verbosity=5
+   duplicity restore ${PATH_TO_DUPLICITY_DRIVE_REPO} ${PATH_TO_RESTORE} --verbosity=5
 }
 
 cleanup_failures() {
-   duplicity cleanup --force ${B2_URL}
+   duplicity cleanup --force ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 only_keep_last_2_full_backups() {
-   duplicity remove-all-but-n-full 2 --force ${B2_URL}
-   duplicity remove-all-inc-of-but-n-full 2 --force ${B2_URL}
+   duplicity remove-all-but-n-full 2 --force ${PATH_TO_DUPLICITY_DRIVE_REPO}
+   duplicity remove-all-inc-of-but-n-full 2 --force ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 remove_files_older_than_90_days() {
-   duplicity remove-older-than 90D --force ${B2_URL}
+   duplicity remove-older-than 90D --force ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 backup () {
@@ -36,11 +29,11 @@ backup () {
 }
 
 collection_status () {
-   duplicity collection-status ${B2_URL}
+   duplicity collection-status ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 list_files () {
-   duplicity list-current-files ${B2_URL}
+   duplicity list-current-files ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 echo ""

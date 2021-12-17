@@ -1,16 +1,13 @@
 #!/bin/bash
 
-PATH_TO_REPO=""
-PATH_TO_BACKUP=""
-
 unixEpochTime=`date +%s`
 
 list_backups() {
-   borg list ${PATH_TO_REPO}
+   borg list ${PATH_TO_BORG_DRIVE_REPO}
 }
 
 perform_backup() {
-   borg create --stats --progress --compression lz4 ${PATH_TO_REPO}::${unixEpochTime} ${PATH_TO_BACKUP}
+   borg create --stats --progress --compression lz4 ${PATH_TO_BORG_DRIVE_REPO}::${unixEpochTime} ${PATH_TO_BACKUP}
 }
 
 echo ""

@@ -1,10 +1,7 @@
 #!/bin/bash
 
-PATH_TO_REPO=""
-PATH_TO_BACKUP=""
-
 perform_backup() {
-   restic -r ${PATH_TO_REPO} --verbose backup ${PATH_TO_BACKUP}
+   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup ${PATH_TO_BACKUP}
 }
 
 echo ""
