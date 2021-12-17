@@ -2,7 +2,7 @@
 	email = 
 	name = 
 [core]
-	hooksPath = ~/.githooks
+	hooksPath = ~/.githooks/
 [alias]
    aa = add --all
    br = branch

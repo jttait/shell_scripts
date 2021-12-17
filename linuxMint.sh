@@ -85,6 +85,7 @@ sudo apt install git
 wget -N https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA -O ~/.gitconfig
 mkdir ~/.githooks 
 wget -N https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK -O ~/.githooks/pre-commit
+chmod +x ~/.githooks/pre-commit
 git config --global user.email $GITHUB_USER_EMAIL
 git config --global user.name $GITHUB_USER_NAME
 
