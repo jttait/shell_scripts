@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source common.sh
+exitIfEnvironmentVariableIsNotSet PATH_TO_BORG_DRIVE_REPO
+exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+
 unixEpochTime=`date +%s`
 
 list_backups() {

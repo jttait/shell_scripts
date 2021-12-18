@@ -1,5 +1,9 @@
 #!/bin/bash
 
+source common.sh
+exitIfEnvironmentVariableIsNotSet PATH_TO_RESTIC_DRIVE_REPO
+exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+
 perform_backup() {
    restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup ${PATH_TO_BACKUP}
 }
