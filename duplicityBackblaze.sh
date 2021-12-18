@@ -1,5 +1,13 @@
 #!/bin/bash
 
+source common.sh
+exitIfEnvironmentVariableIsNotSet B2_ACCOUNT_ID
+exitIfEnvironmentVariableIsNotSet B2_ACCOUNT_KEY
+exitIfEnvironmentVariableIsNotSet B2_DUPLICITY_BUCKET
+exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet DUPLICITY_GPG_KEY
+exitIfEnvironmentVariableIsNotSet PATH_TO_RESTORE
+
 B2_URL="b2://${B2_ACCOUNT_ID}:${B2_ACCOUNT_KEY}@${B2_DUPLICITY_BUCKET}"
 
 perform_backup() {

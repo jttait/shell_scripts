@@ -1,9 +1,15 @@
 #!/bin/bash
 
+source common.sh
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
+
+UBUNTU_DISTRO="focal"
 
 deleteDirectoryIfExists() {
    if [ -d $1 ]
@@ -51,7 +57,7 @@ installAptPackage() {
    then
       echo -e "[SKIPPED] APT package $1 already installed"
    else
-      sudo apt --qq install $1
+      sudo apt -qq install $1
       if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
       then
          echo -e "[${GREEN}SUCCESS${NC}] successfully installed APT package $1"
@@ -161,6 +167,9 @@ installAptPackage terminator
 installAptPackage nodejs
 installAptPackage texlive-xetex
 installAptPackage fzf
+installAptPackage apt-transport-https
+installAptPackage curl
+installAptPackage gnupg
 
 # restic
 installAptPackage restic
@@ -241,16 +250,13 @@ removeAptPackageIfInstalled docker-engine
 removeAptPackageIfInstalled docker.io
 removeAptPackageIfInstalled runc
 sudo apt update -qq
-installAptPackage apt-transport-https
 installAptPackage ca-certificates
-installAptPackage curl
-installAptPackage gnupg
 installAptPackage lsb-release
 installAptPackage software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
-  focal stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+  ${UBUNTU_DISTRO} stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update -qq
 installAptPackage docker-ce
 installAptPackage docker-ce-cli
