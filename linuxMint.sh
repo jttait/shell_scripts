@@ -36,10 +36,14 @@ makeDirectoryIfNotExists() {
 }
 
 installAndUpdateVimPackageFromGithub() {
-  cd ~/.vim/pack/gitplugins/start/
-  git clone $2
-  cd ~/.vim/pack/gitplugins/start/$1
-  git pull
+   cd ~/.vim/pack/gitplugins/start/
+   if [ ! -d $1 ]
+   then
+      git clone $2
+   fi
+   cd ~/.vim/pack/gitplugins/start/$1
+   git pull --quiet
+   echo -e "[${GREEN}SUCCESS${NC}] Installed/updated Vim package $1"
 }
 
 installAptPackage() {
@@ -58,7 +62,14 @@ installAptPackage() {
 }
 
 installSnapPackage() {
-   sudo snap install $1
+   PACKAGE_NAME=$(echo $1 | head -n1 | awk '{print $1;}')
+   INSTALLED=$(snap list | grep $PACKAGE_NAME | wc -l)
+   if [[ INSTALLED -eq 1 ]]
+   then
+      echo "[SKIPPED] Snap package $PACKAGE_NAME already installed"
+   else
+      sudo snap install $1
+   fi
 }
 
 removeAptPackageIfInstalled() {
@@ -98,8 +109,13 @@ downloadFile() {
    fi
 }
 
+installPip3package() {
+   sudo pip3 install $1 --quiet
+   echo "[??????] Installed pip3 package $1"
+}
+
 # timeshift
-sudo timeshift --create --comments "run by newLinuxMint.sh"
+sudo timeshift --create --comments "run by linuxMint.sh"
 
 # remove unwanted directories
 deleteDirectoryIfExists ~/Music
@@ -115,7 +131,7 @@ sudo apt upgrade -qq
 
 # python
 installAptPackage python3-pip
-sudo pip3 install virtualenv
+installPip3package virtualenv
 
 # remove unwanted apt packages
 removeAptPackageIfInstalled thunderbird
@@ -172,7 +188,7 @@ setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
 setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
 
 # vim
-installAptPackage "vim"
+installAptPackage vim
 downloadFile https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 ~/.vimrc
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
@@ -210,28 +226,28 @@ sdk install gradle
 downloadFile https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO ~/.bashrc
 
 # docker
-removeAptPackageIfInstalled "docker"
-removeAptPackageIfInstalled "docker-engine"
-removeAptPackageIfInstalled "docker.io"
-removeAptPackageIfInstalled "runc"
+removeAptPackageIfInstalled docker
+removeAptPackageIfInstalled docker-engine
+removeAptPackageIfInstalled docker.io
+removeAptPackageIfInstalled runc
 sudo apt update -qq
-installAptPackage "apt-transport-https"
-installAptPackage "ca-certificates"
-installAptPackage "curl"
-installAptPackage "gnupg"
-installAptPackage "lsb-release"
-installAptPackage "software-properties-common"
+installAptPackage apt-transport-https
+installAptPackage ca-certificates
+installAptPackage curl
+installAptPackage gnupg
+installAptPackage lsb-release
+installAptPackage software-properties-common
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
 echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
   focal stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update -qq
-installAptPackage "docker-ce"
-installAptPackage "docker-ce-cli"
-installAptPackage "containerd.io"
+installAptPackage docker-ce
+installAptPackage docker-ce-cli
+installAptPackage containerd.io
 
 # borg
-sudo add-apt-repository ppa:costamagnagianfranco/borgbackup
+sudo add-apt-repository ppa:costamagnagianfranco/borgbackup --yes
 sudo apt update -qq
-installAptPackage "borgbackup"
+installAptPackage borgbackup
 
