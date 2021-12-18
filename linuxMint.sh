@@ -180,16 +180,22 @@ installSnapPackage "duplicity --classic"
 
 # git
 installAptPackage git
-downloadFile https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA ~/.gitconfig
+downloadFile \
+   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA \
+   ~/.gitconfig
 makeDirectoryIfNotExists ~/.githooks
-downloadFile https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK ~/.githooks/pre-commit
+downloadFile \
+   https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK \
+   ~/.githooks/pre-commit
 chmod +x ~/.githooks/pre-commit
 setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
 setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
 
 # vim
 installAptPackage vim
-downloadFile https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 ~/.vimrc
+downloadFile \
+   https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 \
+   ~/.vimrc
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
 installAndUpdateVimPackageFromGithub "ale" "https://github.com/dense-analysis/ale"
@@ -197,7 +203,9 @@ installAndUpdateVimPackageFromGithub "fzf" "https://github.com/junegunn/fzf"
 installAndUpdateVimPackageFromGithub "fzf.vim" "https://github.com/junegunn/fzf.vim"
 
 # javascript
-downloadFile https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim ~/.vim/javascript.vim
+downloadFile \
+   https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim \
+   ~/.vim/javascript.vim
 sudo npm install standard --global
 
 # sdkman
@@ -223,7 +231,9 @@ sdk install micronaut
 sdk install gradle
 
 # bash 
-downloadFile https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO ~/.bashrc
+downloadFile \
+   https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO \
+   ~/.bashrc
 
 # docker
 removeAptPackageIfInstalled docker
