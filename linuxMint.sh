@@ -196,6 +196,9 @@ installAptPackage vim
 downloadFile \
    https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 \
    ~/.vimrc
+downloadFile \
+   https://raw.githubusercontent.com/jttait/laptop/main/vim/ftplugin/javascript.vim?token=ABPYVWGQ23FU4PUSSMOBUCLBY45AQ \
+   ~/.vim/ftplugin/javascript.vim
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
 installAndUpdateVimPackageFromGithub "ale" "https://github.com/dense-analysis/ale"
@@ -203,9 +206,6 @@ installAndUpdateVimPackageFromGithub "fzf" "https://github.com/junegunn/fzf"
 installAndUpdateVimPackageFromGithub "fzf.vim" "https://github.com/junegunn/fzf.vim"
 
 # javascript
-downloadFile \
-   https://raw.githubusercontent.com/jttait/vimrc/master/.vim/ftplugin/javascript.vim \
-   ~/.vim/javascript.vim
 sudo npm install standard --global
 
 # sdkman
