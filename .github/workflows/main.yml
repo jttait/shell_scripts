@@ -29,5 +29,8 @@ jobs:
       - name: Run a multi-line script
         run: |
           sudo apt install expect
+          sudo add-apt-repository ppa:costamagnagianfranco/borgbackup --yes
+          sudo apt update -qq
+          sudo apt install borgbackup
           cd test
           ./expectBorgDrive.sh
