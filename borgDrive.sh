@@ -26,7 +26,8 @@ perform_backup() {
 }
 
 perform_restore_all() {
-   borg extract --progress ${PATH_TO_BORG_DRIVE_REPO}::$1
+   LATEST_ARCHIVE=$(borg list ${PATH_TO_BORG_DRIVE_REPO} --last 1 | awk '{print $1}')
+   borg extract --progress ${PATH_TO_BORG_DRIVE_REPO}::${LATEST_ARCHIVE}
 }
 
 perform_specific_restore() {
@@ -52,10 +53,7 @@ then
    list_backups
 elif [ $choice == 3 ]
 then
-   list_backups
-   echo -n "Enter archive to restore: "
-   read archive
-   perform_restore_all $archive
+   perform_restore_all
 elif [ $choice == 4 ]
 then
    list_backups
