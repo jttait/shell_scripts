@@ -1,16 +1,34 @@
 #!/bin/bash
 
-source common.sh
+exitIfEnvironmentVariableIsNotSet() {
+   VARIABLE_NAME=$1
+   VARIABLE_VALUE=${!VARIABLE_NAME}
+   if [[ -z ${VARIABLE_VALUE} ]]
+   then
+      echo "ERROR: Environment variable $1 is not set!"
+      exit 1
+   fi
+}
+
 exitIfEnvironmentVariableIsNotSet DUPLICITY_GPG_KEY
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 exitIfEnvironmentVariableIsNotSet PATH_TO_DUPLICITY_DRIVE_REPO
 
 perform_backup() {
-   duplicity --encrypt-key ${DUPLICITY_GPG_KEY} --full-if-older-than 30D --verbosity=5 ${PATH_TO_BACKUP} ${PATH_TO_DUPLICITY_DRIVE_REPO}
+   ARRAY=( $PATHS_TO_BACKUP )
+   duplicity \
+      --encrypt-key ${DUPLICITY_GPG_KEY} \
+      --full-if-older-than 30D \
+      --verbosity=5 \
+      ${ARRAY[@]} \
+      ${PATH_TO_DUPLICITY_DRIVE_REPO}
 }
 
 perform_restore() {
-   duplicity restore ${PATH_TO_DUPLICITY_DRIVE_REPO} ${PATH_TO_RESTORE} --verbosity=5
+   duplicity restore \
+      ${PATH_TO_DUPLICITY_DRIVE_REPO} \
+      ${PATH_TO_RESTORE} \
+      --verbosity=5
 }
 
 cleanup_failures() {
@@ -42,7 +60,7 @@ list_files () {
 }
 
 echo ""
-echo "== DUPLICITY =="
+echo "== DUPLICITY DRIVE =="
 echo ""
 echo "1. Backup"
 echo "2. Collection status"

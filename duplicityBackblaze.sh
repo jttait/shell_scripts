@@ -1,17 +1,32 @@
 #!/bin/bash
 
-source common.sh
+exitIfEnvironmentVariableIsNotSet() {
+   VARIABLE_NAME=$1
+   VARIABLE_VALUE=${!VARIABLE_NAME}
+   if [[ -z ${VARIABLE_VALUE} ]]
+   then
+      echo "ERROR: Environment variable $1 is not set!"
+      exit 1
+   fi
+}
+
 exitIfEnvironmentVariableIsNotSet B2_ACCOUNT_ID
 exitIfEnvironmentVariableIsNotSet B2_ACCOUNT_KEY
 exitIfEnvironmentVariableIsNotSet B2_DUPLICITY_BUCKET
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 exitIfEnvironmentVariableIsNotSet DUPLICITY_GPG_KEY
 exitIfEnvironmentVariableIsNotSet PATH_TO_RESTORE
 
 B2_URL="b2://${B2_ACCOUNT_ID}:${B2_ACCOUNT_KEY}@${B2_DUPLICITY_BUCKET}"
 
 perform_backup() {
-   duplicity --encrypt-key ${DUPLICITY_GPG_KEY} --full-if-older-than 30D --verbosity=5 ${PATH_TO_BACKUP} ${B2_URL}
+   ARRAY=( $PATHS_TO_BACKUP )
+   duplicity \
+      --encrypt-key ${DUPLICITY_GPG_KEY} \
+      --full-if-older-than 30D \
+      --verbosity=5 \
+      ${ARRAY[@]} \
+      ${B2_URL}
 }
 
 perform_restore() {
@@ -20,7 +35,10 @@ perform_restore() {
 
 perform_specific_restore() {
    local path="$1"
-   duplicity restore --verbosity=5 --file-to-restore $path ${B2_URL} ${PATH_TO_RESTORE}${path}
+   duplicity restore \
+      --verbosity=5 \
+      --file-to-restore $path ${B2_URL} \
+      ${PATH_TO_RESTORE}${path}
 }
 
 cleanup_failures() {

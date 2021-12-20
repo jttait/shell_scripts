@@ -1,15 +1,25 @@
 #!/bin/bash
 
-source common.sh
+exitIfEnvironmentVariableIsNotSet() {
+   VARIABLE_NAME=$1
+   VARIABLE_VALUE=${!VARIABLE_NAME}
+   if [[ -z ${!VARIABLE_VALUE} ]]
+   then
+      echo "ERROR: Environment variable $1 is not set!"
+      exit 1
+   fi
+}
+
 exitIfEnvironmentVariableIsNotSet B2_RESTIC_BUCKET
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
-   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${PATH_TO_BACKUP}
+   ARRAY=( $PATHS_TO_BACKUP )
+   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${ARRAY[@]}
 }
 
 echo ""
-echo "== RESTIC =="
+echo "== RESTIC BACKBLAZE =="
 echo ""
 echo "1. Backup"
 echo ""
