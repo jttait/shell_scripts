@@ -1,6 +1,15 @@
 #!/bin/bash
 
-source common.sh
+exitIfEnvironmentVariableIsNotSet() {
+   VARIABLE_NAME=$1
+   VARIABLE_VALUE=${!VARIABLE_NAME}
+   if [[ -z ${VARIABLE_VALUE} ]]
+   then
+      echo "ERROR: Environment variable $1 is not set!"
+      exit 1
+   fi
+}
+
 exitIfEnvironmentVariableIsNotSet DUPLICITY_GPG_KEY
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 exitIfEnvironmentVariableIsNotSet PATH_TO_DUPLICITY_DRIVE_REPO
