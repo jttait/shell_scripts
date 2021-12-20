@@ -15,7 +15,7 @@ exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
    ARRAY=( $PATHS_TO_BACKUP )
-   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup $ARRAY[@]
+   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup ${ARRAY[@]}
 }
 
 perform_restore_all() {
