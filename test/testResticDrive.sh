@@ -1,17 +1,13 @@
 #!/bin/bash
 
-RED='\033[0;31m'
-GREEN='\033[0;32.m'
-NC='\033[0m'
-
 throwExceptionIfDirectoriesDifferent() {
    DIFF=$(diff -r $1 $2)
    if [ "$DIFF" != "" ]
    then
-      echo -e "[${RED}FAIL${NC}]: $1 was not restored"
+      echo "[FAIL]: $1 was not restored"
       exit 1
    else
-      echo -e "[${GREEN}PASS${NC}]: $1 was restored"
+      echo "[PASS]: $1 was restored"
    fi
 }
 
