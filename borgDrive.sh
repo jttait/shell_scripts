@@ -2,8 +2,7 @@
 
 source ./common.sh
 exitIfEnvironmentVariableIsNotSet PATH_TO_BORG_DRIVE_REPO
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
-
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 list_backups() {
    borg list ${PATH_TO_BORG_DRIVE_REPO}
@@ -11,8 +10,10 @@ list_backups() {
 
 perform_backup() {
    unixEpochTime=`date +%s`
-   PATHS=$(echo $PATHS_TO_BACKUP)
-   borg create --stats --progress --compression lz4 ${PATH_TO_BORG_DRIVE_REPO}::${unixEpochTime} $PATHS
+   ARRAY=( $PATHS_TO_BACKUP )
+   borg create --stats --progress --compression lz4 \
+      ${PATH_TO_BORG_DRIVE_REPO}::${unixEpochTime} \
+      ${ARRAY[@]}
 }
 
 perform_restore_all() {
