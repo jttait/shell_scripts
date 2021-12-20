@@ -4,11 +4,6 @@ source common.sh
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
 
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m'
-
 UBUNTU_DISTRO="focal"
 
 deleteDirectoryIfExists() {
@@ -153,6 +148,8 @@ removeAptPackageIfInstalled mpv
 removeAptPackageIfInstalled drawing
 removeAptPackageIfInstalled sticky
 removeAptPackageIfInstalled simple-scan
+removeAptPackageIfInstalled zsh
+removeAptPackageIfInstalled zsh-common
 sudo apt autoremove -qq
 
 # vlc
@@ -161,14 +158,28 @@ installAptPackage vlc
 # gimp
 installAptPackage gimp
 
-# install apt packages
+# nfs-common
 installAptPackage nfs-common
+
+# terminator
 installAptPackage terminator
+
+# nodejs
 installAptPackage nodejs
+
+# texlive-xetex
 installAptPackage texlive-xetex
+
+# fzf
 installAptPackage fzf
+
+# apt-transport-https
 installAptPackage apt-transport-https
+
+#curl
 installAptPackage curl
+
+# gnupg
 installAptPackage gnupg
 
 # restic

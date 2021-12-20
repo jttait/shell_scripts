@@ -9,7 +9,7 @@ perform_backup() {
 }
 
 echo ""
-echo "== RESTIC =="
+echo "== RESTIC BACKBLAZE =="
 echo ""
 echo "1. Backup"
 echo ""

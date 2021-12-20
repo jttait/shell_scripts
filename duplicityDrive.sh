@@ -42,7 +42,7 @@ list_files () {
 }
 
 echo ""
-echo "== DUPLICITY =="
+echo "== DUPLICITY DRIVE =="
 echo ""
 echo "1. Backup"
 echo "2. Collection status"
