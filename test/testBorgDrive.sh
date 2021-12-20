@@ -2,7 +2,7 @@
 
 throwExceptionIfDirectoriesDifferent() {
    DIFF=$(diff -r $1 $2)
-   if [ "$DIFF" == "" ]
+   if [ "$DIFF" != "" ]
    then
       echo "[FAIL]: $1 was not restored"
       exit 1
