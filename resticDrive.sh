@@ -2,11 +2,11 @@
 
 source common.sh
 exitIfEnvironmentVariableIsNotSet PATH_TO_RESTIC_DRIVE_REPO
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
-   PATHS=$(echo ${PATHS_TO_BACKUP})
-   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup $PATHS
+   ARRAY=( $PATHS_TO_BACKUP )
+   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup $ARRAY[@]
 }
 
 perform_restore_all() {

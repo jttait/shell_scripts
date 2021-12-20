@@ -2,10 +2,11 @@
 
 source common.sh
 exitIfEnvironmentVariableIsNotSet B2_RESTIC_BUCKET
-exitIfEnvironmentVariableIsNotSet PATH_TO_BACKUP
+exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
-   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${PATH_TO_BACKUP}
+   ARRAY=( $PATHS_TO_BACKUP )
+   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${ARRAY[@]}
 }
 
 echo ""
