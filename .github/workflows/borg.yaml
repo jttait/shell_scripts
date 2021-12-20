@@ -31,3 +31,6 @@ jobs:
           sudo apt install borgbackup
           cd test
           ./expectBorgDrive.sh
+          if [ $? -eq 1 ]
+          then
+            exit 1
