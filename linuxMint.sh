@@ -1,10 +1,20 @@
 #!/bin/bash
 
-source common.sh
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+NC='\033[0m'
 
 UBUNTU_DISTRO="focal"
+
+exitIfEnvironmentVariableIsNotSet() {
+   VARIABLE_NAME=$1
+   VARIABLE_VALUE=${!VARIABLE_NAME}
+   if [[ -z ${VARIABLE_VALUE} ]]
+   then
+      echo -e "[${RED}FAILURE${NC}] Environment variable $1 is not set!"
+      exit 1
+   fi
+}
 
 deleteDirectoryIfExists() {
    if [ -d $1 ]
@@ -115,6 +125,9 @@ installPip3package() {
    echo "[??????] Installed pip3 package $1"
 }
 
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
+
 # timeshift
 sudo timeshift --create --comments "run by linuxMint.sh"
 
@@ -201,7 +214,7 @@ installSnapPackage "duplicity --classic"
 # git
 installAptPackage git
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWFMT4Z6PEAGK6ZVJ2TBYDIRA \
+   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWDFWE5XRTT3GEHPXKLBZLQFG \
    ~/.gitconfig
 makeDirectoryIfNotExists ~/.githooks
 downloadFile \
@@ -214,7 +227,7 @@ setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
 # vim
 installAptPackage vim
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWDO2I5GOOQQIFFTANDBYDHN4 \
+   https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWEERWBNIPQ4XDNLE73BZLQJI \
    ~/.vimrc
 downloadFile \
    https://raw.githubusercontent.com/jttait/laptop/main/vim/ftplugin/javascript.vim?token=ABPYVWGQ23FU4PUSSMOBUCLBY45AQ \
@@ -252,7 +265,7 @@ sdk install gradle
 
 # bash 
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWASHVSYMCSHRCGTZ4LBX6VCO \
+   https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWA4DDL5GMVGAJ7T2LDBZLQQG \
    ~/.bashrc
 
 # docker
