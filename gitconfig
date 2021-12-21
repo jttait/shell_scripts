@@ -14,4 +14,5 @@
    df = diff
    pl = pull
    ps = push
+   pssu = "! git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD)"
    st = status
