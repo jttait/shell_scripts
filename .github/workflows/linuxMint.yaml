@@ -11,5 +11,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Run script
-        run: ./linuxMint.sh
+      - name: Set environment variables and run script
+        run: |
+           export GITHUB_USER_NAME="Mickey Mouse"
+           export GITHUB_USER_EMAIL="mickey@emailsim.io"
+           ./linuxMint.sh
