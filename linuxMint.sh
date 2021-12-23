@@ -11,7 +11,7 @@ exitIfEnvironmentVariableIsNotSet() {
    VARIABLE_VALUE=${!VARIABLE_NAME}
    if [[ -z ${VARIABLE_VALUE} ]]
    then
-      echo -e "[${RED}FAILURE${NC}] Environment variable $1 is not set!"
+      echo -e "${RED}FAILURE${NC} Environment variable $1 is not set!"
       exit 1
    fi
 }
@@ -22,26 +22,26 @@ deleteDirectoryIfExists() {
       sudo rm -r $1
       if [ -d $1 ]
       then
-         echo -e "[${RED}FAILED${NC}] Failed to remove directory $1"
+         echo -e "${RED}FAILED${NC} Failed to remove directory $1"
       else
-         echo -e "{${GREEN}SUCCESS${NC}] Successfully removed directory $1"
+         echo -e "${GREEN}SUCCESS${NC} Successfully removed directory $1"
       fi
    else
-      echo "[SKIPPED] Directory $1 does not exist, not removing"
+      echo -e "${GREEN}SUCCESS${NC} Directory $1 does not exist, not removing"
    fi
 }
 
 makeDirectoryIfNotExists() {
    if [ -d $1 ]
    then 
-      echo -e "[SKIPPED] Directory $1 already exists"
+      echo -e "${GREEN}SUCCESS${NC} Directory $1 already exists"
    else
       mkdir $1
       if [ -d $1 ]
       then
-         echo -e "[${GREEN}SUCCESS${NC}] Successfully made directory $1"
+         echo -e "${GREEN}SUCCESS${NC} Successfully made directory $1"
       else
-         echo -e "[${RED}FAILURE${NC}] Failed to make directory $1"
+         echo -e "${RED}FAILURE${NC} Failed to make directory $1"
       fi
    fi
 }
@@ -54,20 +54,20 @@ installAndUpdateVimPackageFromGithub() {
    fi
    cd ~/.vim/pack/gitplugins/start/$1
    git pull --quiet
-   echo -e "[${GREEN}SUCCESS${NC}] Installed/updated Vim package $1"
+   echo -e "${GREEN}SUCCESS${NC} Installed/updated Vim package $1"
 }
 
 installAptPackage() {
    if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
    then
-      echo -e "[SKIPPED] APT package $1 already installed"
+      echo -e "${GREEN}SUCCESS${NC} APT package $1 already installed"
    else
       sudo apt -qq install $1
       if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
       then
-         echo -e "[${GREEN}SUCCESS${NC}] successfully installed APT package $1"
+         echo -e "${GREEN}SUCCESS${NC} successfully installed APT package $1"
       else
-         echo -e "[${RED}FAILED${NC}] failed to install APT package $1"
+         echo -e "${RED}FAILED${NC} failed to install APT package $1"
       fi
    fi
 }
@@ -77,7 +77,7 @@ installSnapPackage() {
    INSTALLED=$(snap list | grep $PACKAGE_NAME | wc -l)
    if [[ INSTALLED -eq 1 ]]
    then
-      echo "[SKIPPED] Snap package $PACKAGE_NAME already installed"
+      echo -e "${GREEN}SUCCESS${NC} Snap package $PACKAGE_NAME already installed"
    else
       sudo snap install $1
    fi
@@ -89,12 +89,12 @@ removeAptPackageIfInstalled() {
       sudo apt remove $1
       if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
       then
-         echo -e "[${RED}FAILED${NC}] failed to remove APT package $1"
+         echo -e "${RED}FAILED${NC} failed to remove APT package $1"
       else
-         echo -e "[${GREEN}SUCCESS${NC}] successfully removed APT package $1"
+         echo -e "${GREEN}SUCCESS${NC} successfully removed APT package $1"
       fi
    else
-      echo "[SKIPPED] $1 not installed, not removing"
+      echo -e "${GREEN}SUCCESS${NC} $1 not installed, not removing"
    fi
 }
 
@@ -103,10 +103,10 @@ setGitConfigFromEnvironmentVariable() {
    VARIABLE_VALUE="${!VARIABLE_NAME}"
    if [[ -z $VARIABLE_VALUE ]]
    then
-      echo -e "[${RED}FAILURE${NC}] Environment variable $VARIABLE_NAME not set"
+      echo -e "${RED}FAILURE${NC} Environment variable $VARIABLE_NAME not set"
    else
       git config --global $1 "$VARIABLE_VALUE"
-      echo -e "[${GREEN}SUCCESS${NC}] Git config $1 set to $VARIABLE_VALUE"
+      echo -e "${GREEN}SUCCESS${NC} Git config $1 set to $VARIABLE_VALUE"
    fi
 }
 
@@ -114,15 +114,15 @@ downloadFile() {
    wget -Nq $1 -O $2
    if [ $? -eq 0 ]
    then
-      echo -e "[${GREEN}SUCCESS${NC}] Downloaded $2"
+      echo -e "${GREEN}SUCCESS${NC} Downloaded $2"
    else
-      echo -e "[${RED}FAILURE${NC}] Failed to download $2"
+      echo -e "${RED}FAILURE${NC} Failed to download $2"
    fi
 }
 
 installPip3package() {
    sudo pip3 install $1 --quiet
-   echo "[??????] Installed pip3 package $1"
+   echo "[???????] Installed pip3 package $1"
 }
 
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
@@ -208,17 +208,14 @@ installSnapPackage bw
 # intellij
 installSnapPackage "intellij-idea-community --classic"
 
-# duplicity
-installSnapPackage "duplicity --classic"
-
 # git
 installAptPackage git
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig?token=ABPYVWDFWE5XRTT3GEHPXKLBZLQFG \
+   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig \
    ~/.gitconfig
 makeDirectoryIfNotExists ~/.githooks
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit?token=ABPYVWAYHSP4FSWRQIJCOMTBYYQNK \
+   https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit \
    ~/.githooks/pre-commit
 chmod +x ~/.githooks/pre-commit
 setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
@@ -227,10 +224,10 @@ setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
 # vim
 installAptPackage vim
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/vimrc?token=ABPYVWEERWBNIPQ4XDNLE73BZLQJI \
+   https://raw.githubusercontent.com/jttait/laptop/main/vimrc \
    ~/.vimrc
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/vim/ftplugin/javascript.vim?token=ABPYVWGQ23FU4PUSSMOBUCLBY45AQ \
+   https://raw.githubusercontent.com/jttait/laptop/main/vim/ftplugin/javascript.vim \
    ~/.vim/ftplugin/javascript.vim
 installAndUpdateVimPackageFromGithub "nerdcommenter" "https://github.com/preservim/nerdcommenter"
 installAndUpdateVimPackageFromGithub "nerdtree" "https://github.com/preservim/nerdtree"
@@ -265,7 +262,7 @@ sdk install gradle
 
 # bash 
 downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/bashrc?token=ABPYVWA4DDL5GMVGAJ7T2LDBZLQQG \
+   https://raw.githubusercontent.com/jttait/laptop/main/bashrc \
    ~/.bashrc
 
 # docker

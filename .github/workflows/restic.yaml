@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Run a multi-line script
+      - name: Install Restic and run tests
         run: |
           sudo apt install expect
           sudo apt install restic
