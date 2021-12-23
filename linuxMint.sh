@@ -198,6 +198,9 @@ installAptPackage gnupg
 # restic
 installAptPackage restic
 
+# libre office
+installAptPackage libreoffice
+
 # snap
 installAptPackage snapd
 sudo snap refresh
