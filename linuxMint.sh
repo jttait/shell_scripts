@@ -65,9 +65,9 @@ installAptPackage() {
       sudo apt -qq install $1
       if dpkg --get-selections | grep -q "^$1[[:space:]]*install$" >/dev/null
       then
-         echo -e "${GREEN}SUCCESS${NC} successfully installed APT package $1"
+         echo -e "${GREEN}SUCCESS${NC} Successfully installed APT package $1"
       else
-         echo -e "${RED}FAILED${NC} failed to install APT package $1"
+         echo -e "${RED}FAILED${NC} Failed to install APT package $1"
       fi
    fi
 }
