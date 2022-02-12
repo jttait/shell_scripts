@@ -11,3 +11,4 @@ Set the following environment variables
 - B2_RESTIC_BUCKET
 - B2_ACCOUNT_KEY
 - B2_ACCOUNT_ID
+- TASKWARRIOR_DATA_LOCATION
