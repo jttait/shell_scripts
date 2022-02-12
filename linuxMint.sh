@@ -201,6 +201,12 @@ installAptPackage restic
 # libre office
 installAptPackage libreoffice
 
+# taskwarrior
+installAptPackage taskwarrior
+rm ~/.taskrc
+echo "data.location=${TASKWARRIOR_DATA_LOCATION}" >> ~/.taskrc
+echo "urgency.tags.coefficient=0.0" >> ~/.taskrc
+
 # snap
 installAptPackage snapd
 sudo snap refresh
