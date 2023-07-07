@@ -37,8 +37,8 @@ throwExceptionIfDirectoriesDifferent ./another_directory ./restore/another_direc
 throwExceptionIfDirectoriesDifferent ./file.txt ./restore/file.txt
 
 # cleanup
-rm file.txt
-rm -r directory
-rm -r another_directory
-rm -r repo
-rm -r restore
+rm -f file.txt
+rm -rf directory
+rm -rf another_directory
+rm -rf repo
+rm -rf restore
