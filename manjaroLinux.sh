@@ -102,13 +102,42 @@ installAwsCli() {
 	rm -r $HOME/Downloads/aws
 }
 
+installSdkMan() {
+	source $HOME/.sdkman/bin/sdkman-init.sh
+	if command -v sdk &> /dev/null
+	then
+		echo "[SKIPPED] sdk already installed"
+	else
+		curl -s "https://get.sdkman.io?rcupdate=false" | bash
+		if command -v sdk &> /dev/null
+		then
+			echo -e "[${GREEN}SUCCESS${NC}] Successfully installed sdk"
+		else
+			echo -e "[${RED}FAILURE${NC}] Failed to install sdk"
+		fi
+	fi
+	source $HOME/.sdkman/bin/sdkman-init.sh
+	sdk update
+}
+
+installMinikube() {
+	curl -L https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 -o ~/Downloads/minikube
+	sudo install ~/Downloads/minikube /usr/local/bin/minikube
+	rm ~/Downloads/minikube
+}
+
+installKubectl() {
+	curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o ~/Downloads/kubectl
+	sudo install -o root -g root -m 0755 ~/Downloads/kubectl /usr/local/bin/kubectl
+	rm ~/Downloads/kubectl
+}
 
 echo ""
 
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
 
-sudo pacman -Syu
+sudo pacman -Syyu
 
 removePacmanPackage pidgin
 removePacmanPackage thunderbird
@@ -125,6 +154,8 @@ installPacmanPackage python-pip
 installPacmanPackage fzf
 installPacmanPackage transmission-gtk
 installPacmanPackage docker
+installPacmanPackage intellij-idea-community-edition
+installPacmanPackage go
 
 setupGit
 
@@ -133,5 +164,16 @@ downloadBashrc
 installDockerComposePlugin
 
 installAwsCli
+
+installSdkMan
+sdk install java 19.0.2-tem
+sdk install java 17.0.6-tem
+sdk install gradle
+sdk install micronaut
+
+installMinikube
+installKubectl
+
+sudo usermod -aG docker $USER
 
 echo ""

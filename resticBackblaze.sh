@@ -15,7 +15,7 @@ exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
    ARRAY=( $PATHS_TO_BACKUP )
-   restic -r ${B2_RESTIC_BUCKET} --verbose backup ${ARRAY[@]}
+   restic -r b2:${B2_RESTIC_BUCKET} --verbose backup ${ARRAY[@]}
 }
 
 echo ""
