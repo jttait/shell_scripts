@@ -120,18 +120,6 @@ installSdkMan() {
 	sdk update
 }
 
-installMinikube() {
-	curl -L https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64 -o ~/Downloads/minikube
-	sudo install ~/Downloads/minikube /usr/local/bin/minikube
-	rm ~/Downloads/minikube
-}
-
-installKubectl() {
-	curl -L "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -o ~/Downloads/kubectl
-	sudo install -o root -g root -m 0755 ~/Downloads/kubectl /usr/local/bin/kubectl
-	rm ~/Downloads/kubectl
-}
-
 echo ""
 
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
@@ -156,6 +144,9 @@ installPacmanPackage transmission-gtk
 installPacmanPackage docker
 installPacmanPackage intellij-idea-community-edition
 installPacmanPackage go
+installPacmanPackage minikube
+installPacmanPackage kubectl
+installPacmanPackage helm
 
 setupGit
 
@@ -170,9 +161,6 @@ sdk install java 19.0.2-tem
 sdk install java 17.0.6-tem
 sdk install gradle
 sdk install micronaut
-
-installMinikube
-installKubectl
 
 sudo usermod -aG docker $USER
 
