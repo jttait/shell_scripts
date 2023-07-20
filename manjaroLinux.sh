@@ -131,6 +131,7 @@ removePacmanPackage pidgin
 removePacmanPackage thunderbird
 removePacmanPackage hexchat
 removePacmanPackage onlyoffice-desktopeditors
+removePacmanPackage audacious
 
 installPacmanPackage borg
 installPacmanPackage git
@@ -147,6 +148,12 @@ installPacmanPackage go
 installPacmanPackage minikube
 installPacmanPackage kubectl
 installPacmanPackage helm
+installPacmanPackage texlive-basic
+installPacmanPackage texlive-latex
+installPacmanPackage texlive-xetex
+installPacmanPackage texlive-latexrecommended
+installPacmanPackage texlive-latexextra
+installPacmanPackage texlive-fontsrecommended
 
 setupGit
 
