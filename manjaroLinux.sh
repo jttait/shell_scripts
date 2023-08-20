@@ -120,6 +120,18 @@ installSdkMan() {
 	sdk update
 }
 
+installAndUpdateVimPackageFromGithub() {
+   mkdir -p ~/.vim/pack/gitplugins/start
+   cd ~/.vim/pack/gitplugins/start/
+   if [ ! -d $1 ]
+   then
+      git clone $2
+   fi
+   cd ~/.vim/pack/gitplugins/start/$1
+   git pull --quiet
+   echo -e "${GREEN}SUCCESS${NC} Installed/updated Vim package $1"
+}
+
 echo ""
 
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
@@ -134,9 +146,6 @@ removePacmanPackage onlyoffice-desktopeditors
 removePacmanPackage audacious
 
 installPacmanPackage borg
-installPacmanPackage git
-installPacmanPackage vim
-installPacmanPackage task
 installPacmanPackage restic
 installPacmanPackage libreoffice-still
 installPacmanPackage python-pip
@@ -154,12 +163,19 @@ installPacmanPackage texlive-xetex
 installPacmanPackage texlive-latexrecommended
 installPacmanPackage texlive-latexextra
 installPacmanPackage texlive-fontsrecommended
+installPacmanPackage code
+installPacmanPackage yay
 
+installPacmanPackage git
 setupGit
+
+installPacmanPackage vim
+installAndUpdateVimPackageFromGithub "vim-go" "https://github.com/fatih/vim-go.git"
 
 downloadBashrc
 
 installDockerComposePlugin
+sudo usermod -aG docker $USER
 
 installAwsCli
 
@@ -169,6 +185,6 @@ sdk install java 17.0.6-tem
 sdk install gradle
 sdk install micronaut
 
-sudo usermod -aG docker $USER
+yay -Syu tfenv
 
 echo ""
