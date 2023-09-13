@@ -1,6 +1,4 @@
 #!/bin/bash
-export GIT_USER_NAME="Jonathon Tait"
-export GIT_USER_EMAIL="jonathon.tait@tesco.com"
 
 if [ -z "$GIT_USER_NAME" ]; then
    echo "GIT_USER_NAME environment variable is not set. Exiting."
@@ -29,7 +27,6 @@ brew install azure-cli
 brew install session-manager-plugin
 brew install --cask sqlitestudio
 brew install terragrunt
-brew install warrensbox/tap/tgswitch
 
 brew upgrade
 brew upgrade --cask --greedy
@@ -48,8 +45,8 @@ sdk install gradle
 sdk install groovy 4.0.11
 
 mkdir $HOME/.githooks
-wget -O $HOME/.githooks/pre-commit https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit
+wget -O $HOME/.githooks/pre-commit https://raw.githubusercontent.com/jttait/shell_scripts/main/githooks/pre-commit
 
-wget -O $HOME/.gitconfig https://raw.githubusercontent.com/jttait/laptop/main/gitconfig
+wget -O $HOME/.gitconfig https://raw.githubusercontent.com/jttait/shell_scripts/main/gitconfig
 git config --global user.name "$GIT_USER_NAME"
 git config --global user.email "$GIT_USER_EMAIL"
