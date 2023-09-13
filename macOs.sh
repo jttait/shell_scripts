@@ -1,93 +1,52 @@
 #!/bin/bash
 
-GREEN='\033[1;32m'
-RED='\033[1;31m'
-NC='\033[0m'
+if [ -z "$GIT_USER_NAME" ]; then
+   echo "GIT_USER_NAME environment variable is not set. Exiting."
+   exit 1
+fi
 
-exitIfEnvironmentVariableIsNotSet() {
-   VARIABLE_NAME=$1
-   VARIABLE_VALUE=${!VARIABLE_NAME}
-   if [[ -z ${VARIABLE_VALUE} ]]
-   then
-      echo -e "${RED}FAILURE${NC} Environment variable $1 is not set!"
-      exit 1
-   fi
-}
-
-setGitConfigFromEnvironmentVariable() {
-   VARIABLE_NAME=$2
-   VARIABLE_VALUE="${!VARIABLE_NAME}"
-   if [[ -z $VARIABLE_VALUE ]]
-   then
-      echo -e "${RED}FAILURE${NC} Environment variable $VARIABLE_NAME not set"
-      exit 1
-   else
-      git config --global $1 "$VARIABLE_VALUE"
-      echo -e "${GREEN}SUCCESS${NC} Git config $1 set to $VARIABLE_VALUE"
-   fi
-}
-
-installBrewFormula() {
-   if brew ls $1 > /dev/null
-   then
-      echo -e "${GREEN}SUCCESS${NC} Brew formula $1 is already installed"
-   else
-      brew install $1
-      if brew ls $1 > /dev/null
-      then
-         echo -e "${GREEN}SUCCESS${NC} Installed Brew formula $1"
-      else
-         echo -e "${RED}FAILURE${NC} Failed to install Brew formula $1"
-      fi
-   fi
-}
-
-installBrewCask() {
-   if brew ls --cask $1 > /dev/null
-   then
-      echo -e "${GREEN}SUCCESS${NC} Brew cask $1 is already installed"
-   else
-      brew install --cask $1
-      if brew ls --cask $1 > /dev/null
-      then
-         echo -e "${GREEN}SUCCESS${NC} Installed Brew cask $1"
-      else
-         echo -e "${RED}FAILURE${NC} Failed to install Brew cask $1"
-      fi
-   fi
-}
-
-downloadFile() {
-   wget -Nq $1 -O $2
-   if [ $? -eq 0 ]
-   then
-      echo -e "${GREEN}SUCCESS${NC} Downloaded $2"
-   else
-      echo -e "${RED}FAILURE${NC} Failed to download $2"
-   fi
-}
-
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
+if [ -z "$GIT_USER_EMAIL" ]; then
+   echo "GIT_USER_EMAIL environment variable is not set. Exiting."
+   exit 1
+fi
 
 brew update
-installBrewFormula derailed/k9s/k9s
-installBrewFormula tfenv
-installBrewFormula git
-installBrewCask iterm2
+
+brew install minikube
+brew install Azure/kubelogin/kubelogin
+brew install k9s
+brew install tfenv
+brew install git
+brew install bash
+brew install helm
+brew install iterm2
+brew install intellij-idea-ce
+brew install postman
+brew install awscli
+brew install azure-cli
+brew install session-manager-plugin
+brew install --cask sqlitestudio
+brew install terragrunt
+
 brew upgrade
+brew upgrade --cask --greedy
 
-downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/gitconfig \
-   ~/.gitconfig
-mkdir -p ~/.githooks
-downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit \
-   ~/.githooks/pre-commit
-chmod +x ~/.githooks/pre-commit
-setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
-setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
+tfenv install 1.4.5
+tfenv use 1.4.5
 
-downloadFile \
-   https://raw.githubusercontent.com/jttait/laptop/main/vimrc \
-   ~/.vimrc
+curl -s "https://get.sdkman.io" | bash
+
+source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+sdk install java 8.0.362-tem
+sdk install java 11.0.18-tem
+sdk install java 17.0.2-tem
+sdk install gradle
+sdk install groovy 4.0.11
+
+mkdir $HOME/.githooks
+wget -O $HOME/.githooks/pre-commit https://raw.githubusercontent.com/jttait/shell_scripts/main/githooks/pre-commit
+
+wget -O $HOME/.gitconfig https://raw.githubusercontent.com/jttait/shell_scripts/main/gitconfig
+git config --global user.name "$GIT_USER_NAME"
+git config --global user.email "$GIT_USER_EMAIL"
