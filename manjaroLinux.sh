@@ -152,7 +152,6 @@ installPacmanPackage python-pip
 installPacmanPackage fzf
 installPacmanPackage transmission-gtk
 installPacmanPackage docker
-installPacmanPackage intellij-idea-community-edition
 installPacmanPackage go
 installPacmanPackage minikube
 installPacmanPackage kubectl
@@ -165,6 +164,7 @@ installPacmanPackage texlive-latexextra
 installPacmanPackage texlive-fontsrecommended
 installPacmanPackage code
 installPacmanPackage yay
+installPacmanPackage intellij-idea-community-edition
 
 installPacmanPackage git
 setupGit
@@ -185,6 +185,6 @@ sdk install java 17.0.6-tem
 sdk install gradle
 sdk install micronaut
 
-yay -Syu tfenv
+yay --sync --refresh --sysupgrade --needed tfenv
 
 echo ""
