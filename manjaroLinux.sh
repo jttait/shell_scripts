@@ -137,6 +137,13 @@ echo ""
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
 
+rm -r $HOME/Music
+rm -r $HOME/Pictures
+rm -r $HOME/Public
+rm -r $HOME/Templates
+rm -r $HOME/Videos
+rm -r $HOME/Documents
+
 sudo pacman -Syyu
 
 removePacmanPackage pidgin
@@ -165,6 +172,7 @@ installPacmanPackage texlive-fontsrecommended
 installPacmanPackage code
 installPacmanPackage yay
 installPacmanPackage intellij-idea-community-edition
+installPacmanPackage k9s
 
 installPacmanPackage git
 setupGit
