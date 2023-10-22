@@ -195,4 +195,6 @@ sdk install micronaut
 
 yay --sync --refresh --sysupgrade --needed tfenv
 
+pamac install google-chrome
+
 echo ""
