@@ -21,12 +21,15 @@ brew install bash
 brew install helm
 brew install iterm2
 brew install intellij-idea-ce
-brew install postman
 brew install awscli
 brew install azure-cli
 brew install session-manager-plugin
 brew install --cask sqlitestudio
 brew install terragrunt
+brew install --cask bruno
+
+brew tap hashicorp/tap
+brew install hashicorp/tap/vault
 
 brew upgrade
 brew upgrade --cask --greedy
