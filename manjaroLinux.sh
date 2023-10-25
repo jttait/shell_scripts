@@ -6,54 +6,9 @@ NC='\033[0m'
 
 downloadFile() {
   wget -Nq $1 -O $2
-  if [ $? -eq 0 ]
+  if [ $? -ne 0 ]
   then
-    echo -e "${GREEN}SUCCESS${NC} Downloaded $2"
-  else
     echo -e "${RED}FAILURE${NC} Failed to download $2"
-  fi
-}
-
-exitIfEnvironmentVariableIsNotSet() {
-  VARIABLE_NAME=$1
-  VARIABLE_VALUE=${!VARIABLE_NAME}
-  if [[ -z ${VARIABLE_VALUE} ]]
-  then
-    echo -e "${RED}FAILURE${NC} Environment variable $1 is not set!"
-    exit 1
-  fi
-}
-
-removePacmanPackage() {
-  if pacman -Q | grep $1
-  then
-    sudo pacman -R $1
-  fi
-  echo -e "${GREEN}SUCCESS${NC} Pacman removed $1"
-}
-
-installPacmanPackage() {
-  sudo pacman -Syu --needed $1
-  if [ $? -eq 0 ]
-  then
-    echo -e "${GREEN}SUCCESS${NC} Pacman installed $1"
-  else
-    echo -e "${RED}FAILURE${NC} Pacman failed to install $1"
-  fi
-}
-
-makeDirectoryIfNotExists() {
-  if [ -d $1 ]
-  then 
-    echo -e "${GREEN}SUCCESS${NC} Directory $1 already exists"
-  else
-    mkdir $1
-    if [ -d $1 ]
-    then
-      echo -e "${GREEN}SUCCESS${NC} Successfully made directory $1"
-    else
-      echo -e "${RED}FAILURE${NC} Failed to make directory $1"
-    fi
   fi
 }
 
@@ -65,18 +20,17 @@ setGitConfigFromEnvironmentVariable() {
     echo -e "${RED}FAILURE${NC} Environment variable $VARIABLE_NAME not set"
   else
     git config --global $1 "$VARIABLE_VALUE"
-    echo -e "${GREEN}SUCCESS${NC} Git config $1 set to $VARIABLE_VALUE"
   fi
 }
 
 setupGit() {
   downloadFile \
     https://raw.githubusercontent.com/jttait/laptop/main/gitconfig \
-     ~/.gitconfig
-  makeDirectoryIfNotExists ~/.githooks
+     $HOME/.gitconfig
+  makeDirectory $HOME/.githooks
   downloadFile \
     https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit \
-    ~/.githooks/pre-commit
+    $HOME/.githooks/pre-commit
   chmod +x ~/.githooks/pre-commit
   setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
   setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
@@ -89,14 +43,22 @@ downloadBashrc() {
 }
 
 installDockerComposePlugin() {
-	mkdir -p /usr/lib/docker/cli-plugins
-	curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
-	chmod +x /usr/lib/docker/cli-plugins/docker-compose
+	makeDirectory /usr/lib/docker/cli-plugins
+	sudo curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
+	sudo chmod +x /usr/lib/docker/cli-plugins/docker-compose
+}
+
+installDockerBuildxPlugin() {
+	makeDirectory /usr/lib/docker/cli-plugins
+	sudo curl -SL https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-amd64 -o /usr/lib/docker/cli-plugins/docker-buildx
+	sudo chmod +x /usr/lib/docker/cli-plugins/docker-buildx
 }
 
 installAwsCli() {
-	curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "$HOME/Downloads/awscliv2.zip"
-	unzip $HOME/Downloads/awscliv2.zip -d $HOME/Downloads/
+	downloadFile \
+		https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+		$HOME/Downloads/awscliv2.zip
+	unzip -qq $HOME/Downloads/awscliv2.zip -d $HOME/Downloads/
 	sudo $HOME/Downloads/aws/install --update
 	rm $HOME/Downloads/awscliv2.zip
 	rm -r $HOME/Downloads/aws
@@ -121,68 +83,97 @@ installSdkMan() {
 }
 
 installAndUpdateVimPackageFromGithub() {
-   mkdir -p ~/.vim/pack/gitplugins/start
+   makeDirectory $HOME/.vim/pack/gitplugins/start
    cd ~/.vim/pack/gitplugins/start/
    if [ ! -d $1 ]
    then
-      git clone $2
+      git clone --quiet $2
    fi
    cd ~/.vim/pack/gitplugins/start/$1
    git pull --quiet
-   echo -e "${GREEN}SUCCESS${NC} Installed/updated Vim package $1"
+}
+
+installPamacPackage() {
+	result=$(pamac list | grep $1)
+	if [[ -z "$result" ]]
+	then
+		sudo pamac install $1 --no-confirm
+	fi
+}
+
+removePamacPackage() {
+	result=$(pamac list | grep $1)
+	if [[ -n "$result" ]]
+	then
+		sudo pamac remove $1 --no-confirm
+	fi
+}
+
+removeDirectory() {
+	if [ -d "$1" ]
+	then
+		sudo rm -r $1
+	fi
+}
+
+makeDirectory() {
+	if [ ! -d "$1" ]
+	then
+		sudo mkdir -p $1
+	fi
 }
 
 echo ""
 
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
-exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
+removeDirectory $HOME/Music
+removeDirectory $HOME/Pictures
+removeDirectory $HOME/Public
+removeDirectory $HOME/Templates
+removeDirectory $HOME/Videos
+removeDirectory $HOME/Documents
 
-rm -r $HOME/Music
-rm -r $HOME/Pictures
-rm -r $HOME/Public
-rm -r $HOME/Templates
-rm -r $HOME/Videos
-rm -r $HOME/Documents
+sudo pamac update
+sudo pamac upgrade
 
-sudo pacman -Syyu
+removePamacPackage pidgin
+removePamacPackage thunderbird
+removePamacPackage hexchat
+removePamacPackage onlyoffice-desktopeditors
+removePamacPackage audacious
+removePamacPackage audacious-plugins
 
-removePacmanPackage pidgin
-removePacmanPackage thunderbird
-removePacmanPackage hexchat
-removePacmanPackage onlyoffice-desktopeditors
-removePacmanPackage audacious
+installPamacPackage borg
+installPamacPackage restic
+installPamacPackage libreoffice-still
+installPamacPackage python-pip
+installPamacPackage fzf
+installPamacPackage transmission-gtk
+installPamacPackage docker
+installPamacPackage go
+installPamacPackage minikube
+installPamacPackage kubectl
+installPamacPackage helm
+installPamacPackage texlive-basic
+installPamacPackage texlive-latex
+installPamacPackage texlive-xetex
+installPamacPackage texlive-latexrecommended
+installPamacPackage texlive-latexextra
+installPamacPackage texlive-fontsrecommended
+installPamacPackage intellij-idea-community-edition
+installPamacPackage k9s
+installPamacPackage tfenv
+installPamacPackage google-chrome
 
-installPacmanPackage borg
-installPacmanPackage restic
-installPacmanPackage libreoffice-still
-installPacmanPackage python-pip
-installPacmanPackage fzf
-installPacmanPackage transmission-gtk
-installPacmanPackage docker
-installPacmanPackage go
-installPacmanPackage minikube
-installPacmanPackage kubectl
-installPacmanPackage helm
-installPacmanPackage texlive-basic
-installPacmanPackage texlive-latex
-installPacmanPackage texlive-xetex
-installPacmanPackage texlive-latexrecommended
-installPacmanPackage texlive-latexextra
-installPacmanPackage texlive-fontsrecommended
-installPacmanPackage code
-installPacmanPackage yay
-installPacmanPackage intellij-idea-community-edition
-installPacmanPackage k9s
-
-installPacmanPackage git
+installPamacPackage git
 setupGit
 
-installPacmanPackage vim
+installPamacPackage vim
 installAndUpdateVimPackageFromGithub "vim-go" "https://github.com/fatih/vim-go.git"
 
 downloadBashrc
 
 installDockerComposePlugin
+installDockerBuildxPlugin
 sudo usermod -aG docker $USER
 
 installAwsCli
@@ -192,9 +183,5 @@ sdk install java 19.0.2-tem
 sdk install java 17.0.6-tem
 sdk install gradle
 sdk install micronaut
-
-yay --sync --refresh --sysupgrade --needed tfenv
-
-pamac install google-chrome
 
 echo ""
