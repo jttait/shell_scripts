@@ -44,7 +44,7 @@ downloadBashrc() {
 
 installDockerComposePlugin() {
 	makeDirectory /usr/lib/docker/cli-plugins
-	sudo curl -SL https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
+	sudo curl -SL https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
 	sudo chmod +x /usr/lib/docker/cli-plugins/docker-compose
 }
 
