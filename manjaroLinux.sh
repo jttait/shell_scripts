@@ -26,14 +26,14 @@ setGitConfigFromEnvironmentVariable() {
 setupGit() {
   downloadFile \
     https://raw.githubusercontent.com/jttait/laptop/main/gitconfig \
-     $HOME/.gitconfig
-  makeDirectory $HOME/.githooks
+     ~/.gitconfig
+  makeDirectory ~/.githooks
   downloadFile \
     https://raw.githubusercontent.com/jttait/laptop/main/githooks/pre-commit \
-    $HOME/.githooks/pre-commit
+    ~/.githooks/pre-commit
   chmod +x ~/.githooks/pre-commit
-  setGitConfigFromEnvironmentVariable "user.email" "GITHUB_USER_EMAIL"
-  setGitConfigFromEnvironmentVariable "user.name" "GITHUB_USER_NAME"
+  setGitConfigFromEnvironmentVariable user.email GITHUB_USER_EMAIL
+  setGitConfigFromEnvironmentVariable user.name GITHUB_USER_NAME
 }
 
 downloadBashrc() {
@@ -43,88 +43,86 @@ downloadBashrc() {
 }
 
 installDockerPlugin() {
-	makeDirectory /usr/lib/docker/cli-plugins
-	downloadFile $2 /usr/lib/docker/cli-plugins/$1
-	sudo chmod +x /usr/lib/docker/cli-plugins/$1
+  makeDirectory /usr/lib/docker/cli-plugins
+  downloadFile $2 /usr/lib/docker/cli-plugins/$1
+  sudo chmod +x /usr/lib/docker/cli-plugins/$1
 }
 
 installAwsCli() {
-	downloadFile \
-		https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
-		$HOME/Downloads/awscliv2.zip
-	unzip -qq $HOME/Downloads/awscliv2.zip -d $HOME/Downloads/
-	sudo $HOME/Downloads/aws/install --update
-	rm -f $HOME/Downloads/awscliv2.zip
-	rm -r $HOME/Downloads/aws
+  downloadFile \
+    https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip \
+    ~/Downloads/awscliv2.zip
+  unzip -qq ~/Downloads/awscliv2.zip -d ~/Downloads/
+  sudo ~/Downloads/aws/install --update
+  rm -f ~/Downloads/awscliv2.zip
+  rm -r ~/Downloads/aws
 }
 
 installSdkMan() {
-	source $HOME/.sdkman/bin/sdkman-init.sh
-	if command -v sdk &> /dev/null
-	then
-		echo "[SKIPPED] sdk already installed"
-	else
-		curl -s "https://get.sdkman.io?rcupdate=false" | bash
-		if command -v sdk &> /dev/null
-		then
-			echo -e "[${GREEN}SUCCESS${NC}] Successfully installed sdk"
-		else
-			echo -e "[${RED}FAILURE${NC}] Failed to install sdk"
-		fi
-	fi
-	source $HOME/.sdkman/bin/sdkman-init.sh
-	sdk update
+  source ~/.sdkman/bin/sdkman-init.sh
+  if ! command -v sdk &> /dev/null
+  then
+    curl -s "https://get.sdkman.io?rcupdate=false" | bash
+    if command -v sdk &> /dev/null
+    then
+      echo -e "[${GREEN}SUCCESS${NC}] Successfully installed sdk"
+    else
+      echo -e "[${RED}FAILURE${NC}] Failed to install sdk"
+    fi
+  fi
+  source ~/.sdkman/bin/sdkman-init.sh
+  sdk update
 }
 
 installAndUpdateVimPackageFromGithub() {
-   makeDirectory $HOME/.vim/pack/gitplugins/start
-   cd ~/.vim/pack/gitplugins/start/
-   if [ ! -d $1 ]
-   then
-      git clone --quiet $2
-   fi
-   cd ~/.vim/pack/gitplugins/start/$1
-   git pull --quiet
+  makeDirectory ~/.vim/pack/gitplugins/start
+  cd ~/.vim/pack/gitplugins/start/
+  if [ ! -d $1 ]
+  then
+    git clone --quiet $2
+  fi
+  cd ~/.vim/pack/gitplugins/start/$1
+  git pull --quiet
 }
 
 installPamacPackage() {
-	result=$(pamac list | grep $1)
-	if [[ -z "$result" ]]
-	then
-		sudo pamac install $1 --no-confirm
-	fi
+  alreadyInstalled=$(pamac list | grep $1)
+  if [[ -z "$alreadyInstalled" ]]
+  then
+    sudo pamac install $1 --no-confirm
+  fi
 }
 
 removePamacPackage() {
-	result=$(pamac list | grep $1)
-	if [[ -n "$result" ]]
-	then
-		sudo pamac remove $1 --no-confirm
-	fi
+  alreadyInstalled=$(pamac list | grep $1)
+  if [[ -n "$alreadyInstalled" ]]
+  then
+    sudo pamac remove $1 --no-confirm
+  fi
 }
 
 removeDirectory() {
-	if [ -d "$1" ]
-	then
-		sudo rm -r $1
-	fi
+  if [ -d "$1" ]
+  then
+    sudo rm -r $1
+  fi
 }
 
 makeDirectory() {
-	if [ ! -d "$1" ]
-	then
-		sudo mkdir -p $1
-	fi
+  if [ ! -d "$1" ]
+  then
+    sudo mkdir -p $1
+  fi
 }
 
 echo ""
 
-removeDirectory $HOME/Music
-removeDirectory $HOME/Pictures
-removeDirectory $HOME/Public
-removeDirectory $HOME/Templates
-removeDirectory $HOME/Videos
-removeDirectory $HOME/Documents
+removeDirectory ~/Music
+removeDirectory ~/Pictures
+removeDirectory ~/Public
+removeDirectory ~/Templates
+removeDirectory ~/Videos
+removeDirectory ~/Documents
 
 sudo pamac update
 sudo pamac upgrade
@@ -162,7 +160,7 @@ installPamacPackage git
 setupGit
 
 installPamacPackage vim
-installAndUpdateVimPackageFromGithub "vim-go" "https://github.com/fatih/vim-go.git"
+installAndUpdateVimPackageFromGithub vim-go https://github.com/fatih/vim-go.git
 
 downloadBashrc
 
