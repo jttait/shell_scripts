@@ -5,7 +5,7 @@ GREEN='\033[1;32m'
 NC='\033[0m'
 
 downloadFile() {
-  wget -Nq $1 -O $2
+  sudo wget -Nq $1 -O $2
   if [ $? -ne 0 ]
   then
     echo -e "${RED}FAILURE${NC} Failed to download $2"
@@ -42,16 +42,10 @@ downloadBashrc() {
     ~/.bashrc
 }
 
-installDockerComposePlugin() {
+installDockerPlugin() {
 	makeDirectory /usr/lib/docker/cli-plugins
-	sudo curl -SL https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-linux-x86_64 -o /usr/lib/docker/cli-plugins/docker-compose
-	sudo chmod +x /usr/lib/docker/cli-plugins/docker-compose
-}
-
-installDockerBuildxPlugin() {
-	makeDirectory /usr/lib/docker/cli-plugins
-	sudo curl -SL https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-amd64 -o /usr/lib/docker/cli-plugins/docker-buildx
-	sudo chmod +x /usr/lib/docker/cli-plugins/docker-buildx
+	downloadFile $2 /usr/lib/docker/cli-plugins/$1
+	sudo chmod +x /usr/lib/docker/cli-plugins/$1
 }
 
 installAwsCli() {
@@ -60,7 +54,7 @@ installAwsCli() {
 		$HOME/Downloads/awscliv2.zip
 	unzip -qq $HOME/Downloads/awscliv2.zip -d $HOME/Downloads/
 	sudo $HOME/Downloads/aws/install --update
-	rm $HOME/Downloads/awscliv2.zip
+	rm -f $HOME/Downloads/awscliv2.zip
 	rm -r $HOME/Downloads/aws
 }
 
@@ -172,8 +166,10 @@ installAndUpdateVimPackageFromGithub "vim-go" "https://github.com/fatih/vim-go.g
 
 downloadBashrc
 
-installDockerComposePlugin
-installDockerBuildxPlugin
+installDockerPlugin docker-compose \
+  https://github.com/docker/compose/releases/download/v2.23.0/docker-compose-linux-x86_64
+installDockerPlugin docker-buildx \
+  https://github.com/docker/buildx/releases/download/v0.11.2/buildx-v0.11.2.linux-amd64
 sudo usermod -aG docker $USER
 
 installAwsCli
