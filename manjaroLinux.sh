@@ -86,7 +86,7 @@ installAndUpdateVimPackageFromGithub() {
 }
 
 installPamacPackage() {
-  alreadyInstalled=$(pamac list | grep $1)
+  alreadyInstalled=$(pamac list | grep -w $1)
   if [[ -z "$alreadyInstalled" ]]
   then
     sudo pamac install $1 --no-confirm
@@ -155,6 +155,7 @@ installPamacPackage intellij-idea-community-edition
 installPamacPackage k9s
 installPamacPackage tfenv
 installPamacPackage google-chrome
+installPamacPackage make
 
 installPamacPackage git
 setupGit
