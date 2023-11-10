@@ -131,8 +131,6 @@ removePamacPackage pidgin
 removePamacPackage thunderbird
 removePamacPackage hexchat
 removePamacPackage onlyoffice-desktopeditors
-removePamacPackage audacious
-removePamacPackage audacious-plugins
 
 installPamacPackage borg
 installPamacPackage restic
@@ -156,6 +154,8 @@ installPamacPackage k9s
 installPamacPackage tfenv
 installPamacPackage google-chrome
 installPamacPackage make
+installPamacPackage audacious
+installPamacPackage audacious-plugins
 
 installPamacPackage git
 setupGit
