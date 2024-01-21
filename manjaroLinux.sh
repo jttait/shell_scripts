@@ -179,4 +179,6 @@ sdk install java 17.0.6-tem
 sdk install gradle
 sdk install micronaut
 
+go install -v golang.org/x/tools/cmd/godoc@latest
+
 echo ""
