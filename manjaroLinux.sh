@@ -74,17 +74,6 @@ installSdkMan() {
   sdk update
 }
 
-installAndUpdateVimPackageFromGithub() {
-  makeDirectory ~/.vim/pack/gitplugins/start
-  cd ~/.vim/pack/gitplugins/start/
-  if [ ! -d $1 ]
-  then
-    git clone --quiet $2
-  fi
-  cd ~/.vim/pack/gitplugins/start/$1
-  git pull --quiet
-}
-
 installPamacPackage() {
   alreadyInstalled=$(pamac list | grep -w $1)
   if [[ -z "$alreadyInstalled" ]]
@@ -115,7 +104,28 @@ makeDirectory() {
   fi
 }
 
+installJetBrainsMonoFont() {
+  downloadFile \
+    https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip \
+    ~/Downloads/JetBrainsMono.zip
+  makeDirectory /usr/share/fonts/jetbrains
+  sudo unzip -u ~/Downloads/JetBrainsMono.zip -d /usr/share/fonts/jetbrains/
+  sudo rm ~/Downloads/JetBrainsMono.zip
+}
+
+installRobotoFont() {
+  downloadFile \
+    https://www.fontsquirrel.com/fonts/download/roboto \
+    ~/Downloads/Roboto.zip
+  makeDirectory /usr/share/fonts/roboto
+  sudo unzip -u ~/Downloads/Roboto.zip -d /usr/share/fonts/roboto/
+  sudo rm ~/Downloads/Roboto.zip
+}
+
 echo ""
+
+installJetBrainsMonoFont
+installRobotoFont
 
 removeDirectory ~/Music
 removeDirectory ~/Pictures
@@ -156,12 +166,15 @@ installPamacPackage google-chrome
 installPamacPackage make
 installPamacPackage audacious
 installPamacPackage audacious-plugins
+installPamacPackage tmux
+installPamacPackage jq
 
 installPamacPackage git
 setupGit
 
-installPamacPackage vim
-installAndUpdateVimPackageFromGithub vim-go https://github.com/fatih/vim-go.git
+installPamacPackage neovim
+#git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
+#go install github.com/go-delve/delve/cmd/dlv@latest
 
 downloadBashrc
 
