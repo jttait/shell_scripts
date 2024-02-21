@@ -173,8 +173,6 @@ installPamacPackage git
 setupGit
 
 installPamacPackage neovim
-#git clone https://github.com/NvChad/NvChad ~/.config/nvim --depth 1
-#go install github.com/go-delve/delve/cmd/dlv@latest
 
 downloadBashrc
 
