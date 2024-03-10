@@ -173,6 +173,23 @@ installPamacPackage git
 setupGit
 
 installPamacPackage neovim
+removeDirectory ~/.config/nvim
+makeDirectory ~/.config
+makeDirectory ~/.config/nvim
+makeDirectory ~/.config/nvim/lua/custom/plugins
+makeDirectory ~/.config/nvim/lua/kickstart/plugins
+downloadFile \
+  https://raw.githubusercontent.com/jttait/shell_scripts/main/nvim/init.lua \
+  ~/.config/nvim/init.lua
+downloadFile \
+  https://raw.githubusercontent.com/jttait/shell_scripts/main/nvim/lua/custom/plugins/init.lua \
+  ~/.config/nvim/lua/custom/plugins/init.lua
+downloadFile \
+  https://raw.githubusercontent.com/jttait/shell_scripts/main/nvim/lua/kickstart/plugins/autoformat.lua \
+  ~/.config/nvim/lua/kickstart/plugins/autoformat.lua
+downloadFile \
+  https://raw.githubusercontent.com/jttait/shell_scripts/main/nvim/lua/kickstart/plugins/debug.lua \
+  ~/.config/nvim/lua/kickstart/plugins/debug.lua
 
 downloadBashrc
 
