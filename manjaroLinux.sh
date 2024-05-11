@@ -79,6 +79,8 @@ installPamacPackage() {
   if [[ -z "$alreadyInstalled" ]]
   then
     sudo pamac install $1 --no-confirm
+  else
+    echo -e "${GREEN}$1 already installed by pamac${RED}"
   fi
 }
 
@@ -202,8 +204,9 @@ sudo usermod -aG docker $USER
 installAwsCli
 
 installSdkMan
-sdk install java 19.0.2-tem
-sdk install java 17.0.6-tem
+sdk install java 22.0.1-tem
+sdk install java 21.0.3-tem
+sdk install java 17.0.11-tem
 sdk install gradle
 sdk install micronaut
 
