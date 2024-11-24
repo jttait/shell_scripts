@@ -27,10 +27,10 @@ export PATH_TO_RESTIC_DRIVE_REPO=./repo
 restic init --repo ${PATH_TO_RESTIC_DRIVE_REPO}
 
 # backup
-../resticDrive.sh
+../restic_drive.sh
 
 # restore
-../resticDrive.sh
+../restic_drive.sh
 
 # test
 throwExceptionIfDirectoriesDifferent ./directory ./restore/directory

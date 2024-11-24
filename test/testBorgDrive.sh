@@ -27,10 +27,10 @@ export PATH_TO_BORG_DRIVE_REPO=./repo
 borg init --encryption=repokey ${PATH_TO_BORG_DRIVE_REPO}
 
 # backup
-../borgDrive.sh
+../borg_drive.sh
 cd restore
 export PATH_TO_BORG_DRIVE_REPO=../repo
-../../borgDrive.sh
+../../borg_drive.sh
 cd ..
 throwExceptionIfDirectoriesDifferent ./directory ./restore/directory
 throwExceptionIfDirectoriesDifferent ./another_directory ./restore/another_directory
