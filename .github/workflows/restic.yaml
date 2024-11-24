@@ -13,8 +13,8 @@ jobs:
       
       - name: Install Restic and run tests
         run: |
-          sudo apt install expect
-          sudo apt install restic
+          sudo apt-get install expect
+          sudo apt-get install restic
           cd test
           ./expectResticDrive.sh
           if [ $? -eq 1 ]
