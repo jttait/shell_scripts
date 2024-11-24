@@ -1,14 +1,12 @@
 #!/bin/bash
 
-RED='\033[1;31m'
-GREEN='\033[1;32m'
-NC='\033[0m'
+source linux.sh
 
 downloadFile() {
   sudo wget -Nq $1 -O $2
   if [ $? -ne 0 ]
   then
-    echo -e "${RED}FAILURE${NC} Failed to download $2"
+    echo -e "${RED}Failed to download $2${NC}"
   fi
 }
 
@@ -78,9 +76,9 @@ installPamacPackage() {
   alreadyInstalled=$(pamac list | grep -w $1)
   if [[ -z "$alreadyInstalled" ]]
   then
-    sudo pamac install $1 --no-confirm
+    pamac install $1 --no-confirm
   else
-    echo -e "${GREEN}$1 already installed by pamac${RED}"
+    echo -e "${GREEN}$1 already installed by pamac${NC}"
   fi
 }
 
@@ -88,7 +86,7 @@ removePamacPackage() {
   alreadyInstalled=$(pamac list | grep $1)
   if [[ -n "$alreadyInstalled" ]]
   then
-    sudo pamac remove $1 --no-confirm
+    pamac remove $1 --no-confirm
   fi
 }
 
@@ -136,8 +134,8 @@ removeDirectory ~/Templates
 removeDirectory ~/Videos
 removeDirectory ~/Documents
 
-sudo pamac update
-sudo pamac upgrade
+pamac update
+pamac upgrade
 
 removePamacPackage pidgin
 removePamacPackage thunderbird
@@ -170,6 +168,7 @@ installPamacPackage audacious
 installPamacPackage audacious-plugins
 installPamacPackage tmux
 installPamacPackage jq
+installPamacPackage calibre
 
 installPamacPackage git
 setupGit
