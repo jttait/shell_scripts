@@ -13,6 +13,7 @@ jobs:
       
       - name: Install Restic and run tests
         run: |
+          sudo apt-get update
           sudo apt-get install expect
           sudo apt-get install restic
           cd test
