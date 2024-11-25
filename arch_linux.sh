@@ -1,3 +1,5 @@
+#!/bin/bash
+
 install_pacman_package() {
 	sudo pacman --sync --sysupgrade --refresh --needed "$1"
 }
