@@ -4,7 +4,7 @@ Set the following environment variables
 
 - GITHUB_USER_EMAIL
 - GITHUB_USER_NAME
-- PATHS_TO_BACKUP
+- PATHS_TO_BACKUP=( "HOME/somedirectory" "$HOME/.ssh" "$HOME/.gnupg" )
 - PATH_TO_RESTORE
 - PATH_TO_BORG_DRIVE_REPO
 - PATH_TO_RESTIC_DRIVE_REPO

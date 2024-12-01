@@ -1,13 +1,13 @@
 #!/bin/bash
 
 source linux.sh
+source secrets.sh
 
 exitIfEnvironmentVariableIsNotSet PATH_TO_RESTIC_DRIVE_REPO
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
-   ARRAY=( $PATHS_TO_BACKUP )
-   restic -r ${PATH_TO_RESTIC_DRIVE_REPO} --verbose backup ${ARRAY[@]}
+   restic backup --repo ${PATH_TO_RESTIC_DRIVE_REPO} --verbose ${PATHS_TO_BACKUP[@]}
 }
 
 perform_restore_all() {
