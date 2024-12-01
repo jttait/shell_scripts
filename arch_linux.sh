@@ -1,11 +1,16 @@
 #!/bin/bash
 
+source linux.sh
+source secrets.sh
+
 install_pacman_package() {
-	sudo pacman --sync --sysupgrade --refresh --needed "$1"
+	sudo pacman --sync --refresh --needed "$1"
 }
+
 install_yay_package() {
-	yay --sync --sysupgrade --refresh --needed "$1"
+	yay --sync --refresh --needed "$1"
 }
+
 setup_git() {
 	wget --timestamping --quiet \
 		https://raw.githubusercontent.com/jttait/shell_scripts/main/gitconfig \
@@ -18,6 +23,7 @@ setup_git() {
 	git config --global user.email "$GITHUB_USER_EMAIL"
 	git config --global user.name "$GITHUB_USER_NAME"
 }
+
 install_docker_plugin() {
 	sudo mkdir --parents /usr/lib/docker/cli-plugins
 	sudo wget --timestamping --quiet \
@@ -25,10 +31,14 @@ install_docker_plugin() {
 		--output-document "/usr/lib/docker/cli-plugins/$1"
 	sudo chmod +x "/usr/lib/docker/cli-plugins/$1"
 }
+
 install_sdkman() {
 	curl -s "https://get.sdkman.io" | bash
 	source "$HOME/.sdkman/bin/sdkman-init.sh"
 }
+
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
+exitIfEnvironmentVariableIsNotSet GITHUB_USER_NAME
 
 rm --recursive --force ~/Music
 rm --recursive --force ~/Pictures
@@ -36,6 +46,8 @@ rm --recursive --force ~/Public
 rm --recursive --force ~/Templates
 rm --recursive --force ~/Videos
 rm --recursive --force ~/Documents
+
+sudo pacman --sync --sysupgrade --refresh
 
 install_pacman_package base-devel
 install_pacman_package dolphin
@@ -65,6 +77,8 @@ install_pacman_package texlive-fontsrecommended
 install_pacman_package ktorrent
 install_pacman_package openssh
 install_pacman_package wget
+
+yay --sync --sysupgrade --refresh
 
 install_yay_package tfenv
 install_yay_package aws-cli-v2

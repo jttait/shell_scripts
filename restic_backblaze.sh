@@ -1,13 +1,16 @@
 #!/bin/bash
 
 source linux.sh
+source secrets.sh
+
+export B2_ACCOUNT_ID=$B2_ACCOUNT_ID
+export B2_ACCOUNT_KEY=$B2_ACCOUNT_KEY
 
 exitIfEnvironmentVariableIsNotSet B2_RESTIC_BUCKET
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 perform_backup() {
-   ARRAY=( $PATHS_TO_BACKUP )
-   restic -r b2:${B2_RESTIC_BUCKET} --verbose backup ${ARRAY[@]}
+   restic backup --repo b2:${B2_RESTIC_BUCKET} --verbose ${PATHS_TO_BACKUP[@]}
 }
 
 echo ""
