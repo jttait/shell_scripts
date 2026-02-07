@@ -12,6 +12,7 @@ throwExceptionIfDirectoriesDifferent() {
 }
 
 # setup
+TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 mkdir -p directory
 mkdir -p another_directory
 echo "hello, world" >> file.txt
@@ -20,8 +21,8 @@ echo "hello, again" >> directory/subdirectory/file_in_subdirectory.txt
 echo "hello there" >> another_directory/file_in_directory.txt
 mkdir -p repo
 mkdir restore
-export PATHS_TO_BACKUP="./directory ./another_directory ./file.txt"
-export PATH_TO_RESTIC_DRIVE_REPO=./repo
+#export PATHS_TO_BACKUP="./directory ./another_directory ./file.txt"
+#export PATH_TO_RESTIC_DRIVE_REPO=./repo
 
 # init repo
 restic init --repo ${PATH_TO_RESTIC_DRIVE_REPO}

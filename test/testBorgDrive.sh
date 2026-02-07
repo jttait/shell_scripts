@@ -59,6 +59,8 @@ unset PATH_TO_BORG_DRIVE_REPO
 
 # backup
 ../borg_drive.sh
+
+# restore
 ../borg_drive.sh
 
 # checked restored directories
