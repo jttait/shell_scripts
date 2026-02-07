@@ -30,7 +30,7 @@ send -- "3\r"
 
 expect "Enter path to restore to: "
 
-send -- "restore"
+send -- "restore\r"
 
 expect "Enter passphrase for key*"
 
