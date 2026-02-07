@@ -41,7 +41,6 @@ unset PATH_TO_BORG_DRIVE_REPO
 # backup
 ../borg_drive.sh
 ../borg_drive.sh
-exit 1
 failIfDirectoriesDifferent ./directory ./restore/directory
 failIfDirectoriesDifferent ./another_directory ./restore/another_directory
 failIfDirectoriesDifferent ./file.txt ./restore/file.txt
