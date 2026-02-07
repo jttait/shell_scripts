@@ -3,9 +3,11 @@
 throwExceptionIfDirectoriesDifferent() {
   if [[ ! -d "$1" ]]; then
     echo "[FAIL] $1 does not exist"
+    exit 1
   fi
   if [[ ! -d "$2" ]]; then
     echo "[FAIL] $2 does not exist"
+    exit 1
   fi
    DIFF=$(diff -r $1 $2)
    if [ "$DIFF" != "" ]
