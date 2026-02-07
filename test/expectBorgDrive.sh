@@ -41,3 +41,5 @@ expect "Enter passphrase for key*"
 send -- "password123\r"
 
 expect eof
+catch wait result
+exit [lindex $result 3]
