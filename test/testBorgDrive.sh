@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 throwExceptionIfDirectoriesDifferent() {
   if [[ ! -d "$1" ]]; then
