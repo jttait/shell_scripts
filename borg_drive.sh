@@ -1,7 +1,9 @@
 #!/bin/bash
 
-source linux.sh
-source secrets.sh
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+source "${SCRIPT_DIR}/linux.sh"
+source "${SCRIPT_DIR}/secrets.sh"
 
 exitIfEnvironmentVariableIsNotSet PATH_TO_BORG_DRIVE_REPO
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
@@ -45,7 +47,7 @@ then
    list_backups
 elif [ $choice == 3 ]
 then
-   echo -n "Enter path to restore to:"
+   echo -n "Enter path to restore to: "
    read path
    mkdir ${path}/borg_restore
    cd ${path}/borg_restore

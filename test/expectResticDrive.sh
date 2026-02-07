@@ -33,3 +33,5 @@ expect "enter password for repository: "
 send -- "password123\r"
 
 expect eof
+catch wait result
+exit [lindex $result 3]

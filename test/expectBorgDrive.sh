@@ -28,6 +28,10 @@ expect "Enter choice: "
 
 send -- "3\r"
 
+expect "Enter path to restore to: "
+
+send -- "./restore\r"
+
 expect "Enter passphrase for key*"
 
 send -- "password123\r"
@@ -37,3 +41,5 @@ expect "Enter passphrase for key*"
 send -- "password123\r"
 
 expect eof
+catch wait result
+exit [lindex $result 3]
