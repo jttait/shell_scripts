@@ -14,8 +14,8 @@ throwExceptionIfDirectoriesDifferent() {
 # setup
 TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
-echo "PATHS_TO_BACKUP=( \"${TEST_DIR}/directory ${TEST_DIR}/another_directory ${TEST_DIR}/file.txt\" )" >> "${TEST_DIR}/secrets.sh"
-echo "PATH_TO_BORG_DRIVE_REPO=\"${TEST_DIR}/repo\"" >> "${TEST_DIR}/secrets.sh"
+echo "PATHS_TO_BACKUP=( \"${TEST_DIR}/directory ${TEST_DIR}/another_directory ${TEST_DIR}/file.txt\" )" >> "${TEST_DIR}/../secrets.sh"
+echo "PATH_TO_BORG_DRIVE_REPO=\"${TEST_DIR}/repo\"" >> "${TEST_DIR}/../secrets.sh"
 mkdir -p ${TEST_DIR}/directory
 mkdir -p ${TEST_DIR}/another_directory
 echo "hello, world" >> ${TEST_DIR}/file.txt
