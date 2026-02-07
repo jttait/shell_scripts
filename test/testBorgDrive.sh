@@ -1,7 +1,6 @@
 #!/bin/bash
-set -e
 
-throwExceptionIfDirectoriesDifferent() {
+failIfDirectoriesDifferent() {
   if [[ ! -d "$1" ]]; then
     echo "[FAIL] $1 does not exist"
     exit 1
@@ -42,9 +41,10 @@ unset PATH_TO_BORG_DRIVE_REPO
 # backup
 ../borg_drive.sh
 ../borg_drive.sh
-throwExceptionIfDirectoriesDifferent ./directory ./restore/directory
-throwExceptionIfDirectoriesDifferent ./another_directory ./restore/another_directory
-throwExceptionIfDirectoriesDifferent ./file.txt ./restore/file.txt
+exit 1
+failIfDirectoriesDifferent ./directory ./restore/directory
+failIfDirectoriesDifferent ./another_directory ./restore/another_directory
+failIfDirectoriesDifferent ./file.txt ./restore/file.txt
 
 # cleanup
 rm -f file.txt
