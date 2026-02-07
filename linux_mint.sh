@@ -37,6 +37,7 @@ sudo rm $HOME/Downloads/golang.tar.gz
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
 sdk install java 25.0.2-tem
+sdk install gradle 9.3.1
 
 # Git
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
