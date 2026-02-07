@@ -1,7 +1,9 @@
 #!/bin/bash
 
-source linux.sh
-source secrets.sh
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+
+source "${SCRIPT_DIR}/linux.sh"
+source "${SCRIPT_DIR}/secrets.sh"
 
 exitIfEnvironmentVariableIsNotSet PATH_TO_BORG_DRIVE_REPO
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
