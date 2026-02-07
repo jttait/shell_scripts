@@ -12,7 +12,9 @@ throwExceptionIfDirectoriesDifferent() {
 }
 
 # setup
-echo "secrets" >> ../secrets.sh
+echo '#!/bin/bash' >> secrets.sh
+echo 'PATHS_TO_BACKUP="./directory ./another_directory ./file.txt' >> ../secrets.sh
+echo 'PATH_TO_BORG_DRIVE_REPO=./repo' >> secrets.sh
 mkdir -p directory
 mkdir -p another_directory
 echo "hello, world" >> file.txt
@@ -21,8 +23,6 @@ echo "hello, again" >> directory/subdirectory/file_in_subdirectory.txt
 echo "hello there" >> another_directory/file_in_directory.txt
 mkdir -p repo
 mkdir restore
-export PATHS_TO_BACKUP="./directory ./another_directory ./file.txt"
-export PATH_TO_BORG_DRIVE_REPO=./repo
 
 # init repo
 borg init --encryption=repokey ${PATH_TO_BORG_DRIVE_REPO}
