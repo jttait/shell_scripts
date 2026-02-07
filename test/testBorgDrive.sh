@@ -12,6 +12,7 @@ throwExceptionIfDirectoriesDifferent() {
 }
 
 # setup
+echo "secrets" >> secrets.sh
 mkdir -p directory
 mkdir -p another_directory
 echo "hello, world" >> file.txt
