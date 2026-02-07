@@ -45,6 +45,9 @@ unset PATH_TO_BORG_DRIVE_REPO
 echo "ls TEST_DIR"
 ls "${TEST_DIR}"
 
+echo "ls TEST_DIR/restore"
+ls "${TEST_DIR}/restore"
+
 failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_restore/directory"
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/another_directory"
 failIfDirectoriesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/file.txt"
