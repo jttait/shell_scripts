@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+SCRIPT_DIR="$(pwd)"
 
 source "${SCRIPT_DIR}/linux.sh"
 source "${SCRIPT_DIR}/secrets.sh"
