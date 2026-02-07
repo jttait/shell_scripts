@@ -1,6 +1,14 @@
 #!/bin/bash
 
-throwExceptionIfDirectoriesDifferent() {
+failIfDirectoriesDifferent() {
+  if [[ ! -d "$1" ]]; then
+    echo "[FAIL] $1 does not exist"
+    exit 1
+  fi
+  if [[ ! -d "$2" ]]; then
+    echo "[FAIL] $2 does not exist"
+    exit 1
+  fi
    DIFF=$(diff -r $1 $2)
    if [ "$DIFF" != "" ]
    then
@@ -11,8 +19,30 @@ throwExceptionIfDirectoriesDifferent() {
    fi
 }
 
+failIfFilesDifferent() {
+  if [[ ! -f "$1" ]]; then
+    echo "[FAIL] $1 does not exist"
+    exit 1
+  fi
+  if [[ ! -f "$2" ]]; then
+    echo "[FAIL] $2 does not exist"
+    exit 1
+  fi
+  DIFF=$(diff $1 $2)
+  if [ "$DIFF" != "" ]
+  then
+      echo "[FAIL] $1 was not restored"
+      exit 1
+  else
+      echo "[PASS] $1 was restored"
+  fi
+}
+
 # setup
 TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
+echo "PATHS_TO_BACKUP=( \"${TEST_DIR}/directory ${TEST_DIR}/another_directory ${TEST_DIR}/file.txt\" )" >> "${TEST_DIR}/../secrets.sh"
+echo "PATH_TO_RESTIC_DRIVE_REPO=\"${TEST_DIR}/repo\"" >> "${TEST_DIR}/../secrets.sh"
 mkdir -p directory
 mkdir -p another_directory
 echo "hello, world" >> file.txt
@@ -21,8 +51,6 @@ echo "hello, again" >> directory/subdirectory/file_in_subdirectory.txt
 echo "hello there" >> another_directory/file_in_directory.txt
 mkdir -p repo
 mkdir restore
-#export PATHS_TO_BACKUP="./directory ./another_directory ./file.txt"
-#export PATH_TO_RESTIC_DRIVE_REPO=./repo
 
 # init repo
 export PATH_TO_RESTIC_DRIVE_REPO="./repo"
@@ -36,9 +64,9 @@ unset PATH_TO_RESTIC_DRIVE_REPO
 ../restic_drive.sh
 
 # test
-throwExceptionIfDirectoriesDifferent ./directory ./restore/directory
-throwExceptionIfDirectoriesDifferent ./another_directory ./restore/another_directory
-throwExceptionIfDirectoriesDifferent ./file.txt ./restore/file.txt
+failIfDirectoriesDifferent ./directory ./restore/directory
+failIfDirectoriesDifferent ./another_directory ./restore/another_directory
+failIfFilesDifferent ./file.txt ./restore/file.txt
 
 # cleanup
 rm -f file.txt
