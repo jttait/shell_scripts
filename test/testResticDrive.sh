@@ -63,6 +63,12 @@ unset PATH_TO_RESTIC_DRIVE_REPO
 # restore
 ../restic_drive.sh
 
+echo "ls TEST_DIR"
+ls "${TEST_DIR}"
+
+echo "ls TEST_DIR/restore"
+ls "${TEST_DIR}/restore"
+
 # test
 failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/directory"
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/another_directory"
