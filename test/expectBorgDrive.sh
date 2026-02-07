@@ -28,6 +28,10 @@ expect "Enter choice: "
 
 send -- "3\r"
 
+expect "Enter path to restore to: "
+
+send -- "restore"
+
 expect "Enter passphrase for key*"
 
 send -- "password123\r"
