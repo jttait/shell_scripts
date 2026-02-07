@@ -12,9 +12,9 @@ throwExceptionIfDirectoriesDifferent() {
 }
 
 # setup
-echo '#!/bin/bash' >> secrets.sh
+echo '#!/bin/bash' >> ../secrets.sh
 echo 'PATHS_TO_BACKUP="./directory ./another_directory ./file.txt' >> ../secrets.sh
-echo 'PATH_TO_BORG_DRIVE_REPO=./repo' >> secrets.sh
+echo 'PATH_TO_BORG_DRIVE_REPO=./repo' >> ../secrets.sh
 mkdir -p directory
 mkdir -p another_directory
 echo "hello, world" >> file.txt
