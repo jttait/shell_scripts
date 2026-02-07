@@ -19,6 +19,25 @@ failIfDirectoriesDifferent() {
    fi
 }
 
+failIfFilesDifferent() {
+  if [[ ! -f "$1" ]]; then
+    echo "[FAIL] $1 does not exist"
+    exit 1
+  fi
+  if [[ ! -f "$2" ]]; then
+    echo "[FAIL] $2 does not exist"
+    exit 1
+  fi
+  DIFF=$(diff $1 $2)
+  if [ "$DIFF" != "" ]
+  then
+      echo "[FAIL] $1 was not restored"
+      exit 1
+  else
+      echo "[PASS] $1 was restored"
+  fi
+}
+
 # setup
 TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
@@ -53,7 +72,7 @@ ls "${TEST_DIR}/restore/borg_restore"
 
 failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/directory"
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/another_directory"
-failIfDirectoriesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/file.txt"
+failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/file.txt"
 
 # cleanup
 rm -f file.txt
