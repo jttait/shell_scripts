@@ -14,6 +14,7 @@ jobs:
       - name: Install Borg and run tests
         shell: bash
         run: |
+          set -Eeuo pipefail
           sudo apt install expect
           sudo add-apt-repository ppa:costamagnagianfranco/borgbackup --yes
           sudo apt update -qq
