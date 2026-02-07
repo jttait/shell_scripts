@@ -3,6 +3,7 @@
 throwExceptionIfDirectoriesDifferent() {
   if [[ ! -d "$1" ]]; then
     echo "[FAIL] $1 does not exist"
+  fi
   if [[ ! -d "$2" ]]; then
     echo "[FAIL] $2 does not exist"
   fi
