@@ -12,28 +12,27 @@ throwExceptionIfDirectoriesDifferent() {
 }
 
 # setup
-pwd
-echo '#!/bin/bash' >> ../secrets.sh
-echo 'PATHS_TO_BACKUP=( "./directory ./another_directory ./file.txt" )' >> ../secrets.sh
-echo 'PATH_TO_BORG_DRIVE_REPO="./repo"' >> ../secrets.sh
-mkdir -p directory
-mkdir -p another_directory
-echo "hello, world" >> file.txt
-mkdir -p directory/subdirectory
-echo "hello, again" >> directory/subdirectory/file_in_subdirectory.txt
-echo "hello there" >> another_directory/file_in_directory.txt
-mkdir -p repo
-mkdir restore
+TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
+echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
+echo "PATHS_TO_BACKUP=( \"${TEST_DIR}/directory ${TEST_DIR}/another_directory ${TEST_DIR}/file.txt\" )" >> "${TEST_DIR}/secrets.sh"
+echo "PATH_TO_BORG_DRIVE_REPO=\"${TEST_DIR}/repo\"" >> "${TEST_DIR}/secrets.sh"
+mkdir -p ${TEST_DIR}/directory
+mkdir -p ${TEST_DIR}/another_directory
+echo "hello, world" >> ${TEST_DIR}/file.txt
+mkdir -p ${TEST_DIR}/directory/subdirectory
+echo "hello, again" >> ${TEST_DIR}/directory/subdirectory/file_in_subdirectory.txt
+echo "hello there" >> ${TEST_DIR}/another_directory/file_in_directory.txt
+mkdir -p ${TEST_DIR}/repo
+mkdir ${TEST_DIR}/restore
 
 # init repo
-export PATH_TO_BORG_DRIVE_REPO="./repo"
+export PATH_TO_BORG_DRIVE_REPO="${TEST_DIR}/repo"
 borg init --encryption=repokey ${PATH_TO_BORG_DRIVE_REPO}
 unset PATH_TO_BORG_DRIVE_REPO
 
 # backup
 ../borg_drive.sh
 cd restore
-export PATH_TO_BORG_DRIVE_REPO=../repo
 ../../borg_drive.sh
 cd ..
 throwExceptionIfDirectoriesDifferent ./directory ./restore/directory
