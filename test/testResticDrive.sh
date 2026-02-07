@@ -70,7 +70,7 @@ echo "ls TEST_DIR/restore"
 ls "${TEST_DIR}/restore"
 
 # test
-failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/directory"
-failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/another_directory"
-failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/file.txt"
+failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/${TEST_DIR}/directory"
+failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/${TEST_DIR}/another_directory"
+failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/${TEST_DIR}/file.txt"
 
