@@ -68,9 +68,3 @@ failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_res
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/another_directory"
 failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/file.txt"
 
-# cleanup
-rm -f file.txt
-rm -rf directory
-rm -rf another_directory
-rm -rf repo
-rm -rf restore

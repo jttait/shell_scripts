@@ -43,14 +43,14 @@ TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
 echo "PATHS_TO_BACKUP=( \"${TEST_DIR}/directory ${TEST_DIR}/another_directory ${TEST_DIR}/file.txt\" )" >> "${TEST_DIR}/../secrets.sh"
 echo "PATH_TO_RESTIC_DRIVE_REPO=\"${TEST_DIR}/repo\"" >> "${TEST_DIR}/../secrets.sh"
-mkdir -p directory
-mkdir -p another_directory
-echo "hello, world" >> file.txt
-mkdir -p directory/subdirectory
-echo "hello, again" >> directory/subdirectory/file_in_subdirectory.txt
-echo "hello there" >> another_directory/file_in_directory.txt
-mkdir -p repo
-mkdir restore
+mkdir -p ${TEST_DIR}/directory
+mkdir -p ${TEST_DIR}/another_directory
+echo "hello, world" >> ${TEST_DIR}/file.txt
+mkdir -p ${TEST_DIR}/directory/subdirectory
+echo "hello, again" >> ${TEST_DIR}/directory/subdirectory/file_in_subdirectory.txt
+echo "hello there" >> ${TEST_DIR}/another_directory/file_in_directory.txt
+mkdir -p ${TEST_DIR}/repo
+mkdir ${TEST_DIR}/restore
 
 # init repo
 export PATH_TO_RESTIC_DRIVE_REPO="./repo"
@@ -64,13 +64,7 @@ unset PATH_TO_RESTIC_DRIVE_REPO
 ../restic_drive.sh
 
 # test
-failIfDirectoriesDifferent ./directory ./restore/directory
-failIfDirectoriesDifferent ./another_directory ./restore/another_directory
-failIfFilesDifferent ./file.txt ./restore/file.txt
+failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/directory"
+failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/another_directory"
+failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/file.txt"
 
-# cleanup
-rm -f file.txt
-rm -rf directory
-rm -rf another_directory
-rm -rf repo
-rm -rf restore
