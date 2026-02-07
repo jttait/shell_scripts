@@ -1,8 +1,5 @@
 #!/usr/bin/expect -f
 
-echo "HOME in expect"
-echo "$HOME"
-
 set timeout -1
 
 spawn ./testBorgDrive.sh
