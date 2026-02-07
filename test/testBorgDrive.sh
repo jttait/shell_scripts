@@ -48,6 +48,9 @@ ls "${TEST_DIR}"
 echo "ls TEST_DIR/restore"
 ls "${TEST_DIR}/restore"
 
+echo "ls TEST_DIR/restore/borg_restore"
+ls "${TEST_DIR}/restore/borg_restore"
+
 failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_restore/directory"
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/another_directory"
 failIfDirectoriesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/file.txt"
