@@ -47,7 +47,7 @@ then
    list_backups
 elif [ $choice == 3 ]
 then
-   echo -n "Enter path to restore to:"
+   echo -n "Enter path to restore to: "
    read path
    mkdir ${path}/borg_restore
    cd ${path}/borg_restore
