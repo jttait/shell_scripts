@@ -19,6 +19,9 @@ failIfDirectoriesDifferent() {
    fi
 }
 
+echo "HOME in testBorgDrive"
+echo $HOME
+
 # setup
 TEST_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 echo '#!/bin/bash' >> "${TEST_DIR}/../secrets.sh"
@@ -41,9 +44,9 @@ unset PATH_TO_BORG_DRIVE_REPO
 # backup
 ../borg_drive.sh
 ../borg_drive.sh
-failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/../restore/borg_restore/directory"
-failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/../restore/borg_restore/another_directory"
-failIfDirectoriesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/../borg_restore/file.txt"
+failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_restore/directory"
+failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/another_directory"
+failIfDirectoriesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/file.txt"
 
 # cleanup
 rm -f file.txt
