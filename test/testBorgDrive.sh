@@ -32,9 +32,7 @@ unset PATH_TO_BORG_DRIVE_REPO
 
 # backup
 ../borg_drive.sh
-cd restore
 ../../borg_drive.sh
-cd ..
 throwExceptionIfDirectoriesDifferent ./directory ./restore/directory
 throwExceptionIfDirectoriesDifferent ./another_directory ./restore/another_directory
 throwExceptionIfDirectoriesDifferent ./file.txt ./restore/file.txt
