@@ -63,7 +63,7 @@ unset PATH_TO_BORG_DRIVE_REPO
 # restore
 ../borg_drive.sh
 
-# checked restored directories
+# test
 failIfDirectoriesDifferent "${TEST_DIR}/directory" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/directory"
 failIfDirectoriesDifferent "${TEST_DIR}/another_directory" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/another_directory"
 failIfFilesDifferent "${TEST_DIR}/file.txt" "${TEST_DIR}/restore/borg_restore/${TEST_DIR}/file.txt"
