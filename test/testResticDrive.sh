@@ -25,7 +25,9 @@ mkdir restore
 #export PATH_TO_RESTIC_DRIVE_REPO=./repo
 
 # init repo
+export PATH_TO_RESTIC_DRIVE_REPO="./repo"
 restic init --repo ${PATH_TO_RESTIC_DRIVE_REPO}
+unset PATH_TO_RESTIC_DRIVE_REPO
 
 # backup
 ../restic_drive.sh
