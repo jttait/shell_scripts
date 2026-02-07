@@ -16,7 +16,6 @@ sudo apt upgrade
 sudo apt remove celluloid --yes
 sudo apt remove thunderbird --yes
 sudo apt remove hypnotix --yes
-sudo apt remove element-desktop
 
 sudo apt install git
 sudo apt install vim
@@ -52,3 +51,12 @@ wget --timestamping --quiet \
 chmod +x ~/.githooks/pre-commit
 git config --global user.email "$GITHUB_USER_EMAIL"
 git config --global user.name "$GITHUB_USER_NAME"
+
+# Google Antigravity
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
+  sudo gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | \
+  sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
+sudo apt update
+sudo apt install antigravity
