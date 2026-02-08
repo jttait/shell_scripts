@@ -53,6 +53,33 @@ chmod +x ~/.githooks/pre-commit
 git config --global user.email "$GITHUB_USER_EMAIL"
 git config --global user.name "$GITHUB_USER_NAME"
 
+# Bashrc
+wget --timestamping --quiet \
+	https://raw.githubusercontent.com/jttait/shell_scripts/main/bashrc \
+	--output-document ~/.bashrc
+
+# Electrum
+mkdir --parents ~/appimage
+ELECTRUM_VERSION="4.7.0"
+wget --timestamping --quiet \
+	https://download.electrum.org/$ELECTRUM_VERSION/electrum-$ELECTRUM_VERSION-x86_64.AppImage \
+	--output-document ~/appimage/electrum.AppImage
+chmod +x ~/appimage/electrum.AppImage
+
+# Docker
+sudo apt-get update
+sudo apt-get install ca-certificates curl --yes
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+sudo chmod a+r /etc/apt/keyrings/docker.asc
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "$UBUNTU_CODENAME") stable" | \
+  sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin --yes
+sudo usermod -aG docker $USER
+
 # Google Antigravity
 sudo mkdir -p /etc/apt/keyrings
 curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
