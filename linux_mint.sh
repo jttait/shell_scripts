@@ -24,6 +24,7 @@ sudo apt install restic
 sudo apt install vlc
 sudo apt install arduino
 sudo apt install imagemagick
+sudo apt install jq
 
 sudo apt autoremove --yes
 
@@ -88,3 +89,27 @@ echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-cent
   sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
 sudo apt update
 sudo apt install antigravity
+
+# Godot Engine
+mkdir --parents ~/Applications/Godot
+GODOT_VERSION="4.6"
+GODOT_URL="https://downloads.godotengine.org/?version=$GODOT_VERSION&flavor=stable&slug=linux.x86_64.zip&platform=linux.64"
+wget --timestamping --quiet "$GODOT_URL" --output-document ~/Applications/Godot/godot.zip
+unzip -o ~/Applications/Godot/godot.zip -d ~/Applications/Godot/
+chmod +x ~/Applications/Godot/Godot_v$GODOT_VERSION-stable_linux.x86_64
+rm ~/Applications/Godot/godot.zip
+wget --timestamping --quiet https://godotengine.org/assets/press/icon_color.png --output-document ~/Applications/Godot/godot.png
+
+cat <<EOF > ~/.local/share/applications/godot.desktop
+[Desktop Entry]
+Name=Godot Engine
+GenericName=Libre game engine
+Comment=Multi-platform 2D and 3D game engine with a unified interface
+Exec=/home/$USER/Applications/Godot/Godot_v$GODOT_VERSION-stable_linux.x86_64
+Icon=/home/$USER/Applications/Godot/godot.png
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+Keywords=godot;game;engine;development;
+StartupWMClass=Godot
+EOF
