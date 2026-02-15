@@ -113,3 +113,10 @@ Categories=Development;IDE;
 Keywords=godot;game;engine;development;
 StartupWMClass=Godot
 EOF
+
+# Calibre
+sudo apt-get install libxcb-cursor0
+sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
+
+# Claude Code
+curl -fsSL https://claude.ai/install.sh | bash
