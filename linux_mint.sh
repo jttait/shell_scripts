@@ -118,5 +118,8 @@ EOF
 sudo apt-get install libxcb-cursor0
 sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
+# Node.js and npm
+sudo apt install nodejs npm --yes
+
 # Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
