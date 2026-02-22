@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)"
 
 source "${SCRIPT_DIR}/linux.sh"
@@ -9,23 +11,25 @@ exitIfEnvironmentVariableIsNotSet PATH_TO_BORG_DRIVE_REPO
 exitIfEnvironmentVariableIsNotSet PATHS_TO_BACKUP
 
 list_backups() {
-   borg list ${PATH_TO_BORG_DRIVE_REPO}
+   borg list "${PATH_TO_BORG_DRIVE_REPO}"
 }
 
 perform_backup() {
-   unixEpochTime=`date +%s`
+   local unix_epoch_time=$(date +%s)
    borg create --stats --progress --compression lz4 \
-      ${PATH_TO_BORG_DRIVE_REPO}::${unixEpochTime} \
-      ${PATHS_TO_BACKUP[@]}
+      "${PATH_TO_BORG_DRIVE_REPO}::${unix_epoch_time}" \
+      "${PATHS_TO_BACKUP[@]}"
 }
 
 perform_restore_all() {
-   LATEST_ARCHIVE=$(borg list ${PATH_TO_BORG_DRIVE_REPO} --last 1 | awk '{print $1}')
-   borg extract --progress ${PATH_TO_BORG_DRIVE_REPO}::${LATEST_ARCHIVE}
+   local latest_archive=$(borg list "${PATH_TO_BORG_DRIVE_REPO}" --last 1 | awk '{print $1}')
+   borg extract --progress "${PATH_TO_BORG_DRIVE_REPO}::${latest_archive}"
 }
 
 perform_specific_restore() {
-   borg extract --progress ${PATH_TO_BORG_DRIVE_REPO}::$1 $2
+   local archive="$1"
+   local path="$2"
+   borg extract --progress "${PATH_TO_BORG_DRIVE_REPO}::${archive}" "${path}"
 }
 
 echo ""
@@ -39,26 +43,29 @@ echo ""
 echo -n "Enter choice: "
 read choice
 
-if [ $choice == 1 ]
+if [[ "$choice" == 1 ]]
 then
    perform_backup
-elif [ $choice == 2 ]
+elif [[ "$choice" == 2 ]]
 then
    list_backups
-elif [ $choice == 3 ]
+elif [[ "$choice" == 3 ]]
 then
    echo -n "Enter path to restore to: "
    read path
-   mkdir ${path}/borg_restore
-   cd ${path}/borg_restore
+   mkdir "${path}/borg_restore"
+   cd "${path}/borg_restore"
    perform_restore_all
-elif [ $choice == 4 ]
+elif [[ "$choice" == 4 ]]
 then
    list_backups
    echo -n "Enter archive to restore: "
    read archive
    echo -n "Enter path to restore: "
    read path
-   perform_specific_restore $archive $path
+   perform_specific_restore "$archive" "$path"
+else
+   echo -e "${RED}Unrecognised choice: ${choice}${NC}"
+   exit 1
 fi
 

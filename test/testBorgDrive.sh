@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 failIfDirectoriesDifferent() {
   if [[ ! -d "$1" ]]; then
     echo "[FAIL] $1 does not exist"
