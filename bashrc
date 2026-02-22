@@ -94,7 +94,7 @@ export PATH=$PATH:/usr/local/go/bin
 # Claude Code                                                                  #
 ################################################################################
 
-export PATH=$PATH:/$HOME/.local/bin
+export PATH=$PATH:$HOME/.local/bin
 
 ################################################################################
 # SDKMAN - must be at bottom of file for SDKMAN to work!                       #

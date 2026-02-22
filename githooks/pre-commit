@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 BRANCH="`git branch | grep \* | cut -f2 -d' '`"
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 source linux.sh
 source secrets.sh
 
@@ -25,6 +27,7 @@ sudo apt install vlc
 sudo apt install arduino
 sudo apt install imagemagick
 sudo apt install jq
+sudo apt install pandoc
 
 sudo apt autoremove --yes
 
@@ -121,5 +124,16 @@ sudo -v && wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | 
 # Node.js and npm
 sudo apt install nodejs npm --yes
 
+# Bruno
+sudo mkdir -p /etc/apt/keyrings
+curl -fsSL "https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x9FA6017ECABE0266" | gpg --dearmor | sudo tee /etc/apt/keyrings/bruno.gpg > /dev/null
+sudo chmod 644 /etc/apt/keyrings/bruno.gpg
+echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ bruno stable" | sudo tee /etc/apt/sources.list.d/bruno.list
+sudo apt update
+sudo apt install bruno --yes
+
 # Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
+
+# OpenCode
+sudo npm i -g opencode-ai
