@@ -1,9 +1,9 @@
 #!/bin/bash
 
-set -eu
-
 source linux.sh
 source secrets.sh
+
+set +eu
 
 rm --recursive --force ~/Music
 rm --recursive --force ~/Videos
@@ -28,6 +28,12 @@ sudo apt install arduino
 sudo apt install imagemagick
 sudo apt install jq
 sudo apt install pandoc
+sudo apt install texlive-base
+sudo apt install texlive-latex-base
+sudo apt install texlive-latex-recommended
+sudo apt install texlive-latex-extra
+sudo apt install texlive-fonts-extra
+sudo apt install sqlite3
 
 sudo apt autoremove --yes
 
@@ -38,10 +44,12 @@ sudo tar -C /usr/local -xzf $HOME/Downloads/golang.tar.gz
 sudo rm $HOME/Downloads/golang.tar.gz
 
 # Install Java programming language
+set +eu
 curl -s "https://get.sdkman.io" | bash
 source "$HOME/.sdkman/bin/sdkman-init.sh"
-sdk install java 25.0.2-tem
-sdk install gradle 9.3.1
+sdkman_auto_answer=true sdk install java 25.0.2-tem
+sdkman_auto_answer=true sdk install gradle 9.3.1
+set +eu
 
 # Git
 exitIfEnvironmentVariableIsNotSet GITHUB_USER_EMAIL
@@ -84,15 +92,6 @@ sudo apt-get update
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin --yes
 sudo usermod -aG docker $USER
 
-# Google Antigravity
-sudo mkdir -p /etc/apt/keyrings
-curl -fsSL https://us-central1-apt.pkg.dev/doc/repo-signing-key.gpg | \
-  sudo gpg --dearmor --yes -o /etc/apt/keyrings/antigravity-repo-key.gpg
-echo "deb [signed-by=/etc/apt/keyrings/antigravity-repo-key.gpg] https://us-central1-apt.pkg.dev/projects/antigravity-auto-updater-dev/ antigravity-debian main" | \
-  sudo tee /etc/apt/sources.list.d/antigravity.list > /dev/null
-sudo apt update
-sudo apt install antigravity
-
 # Godot Engine
 mkdir --parents ~/Applications/Godot
 GODOT_VERSION="4.6"
@@ -132,8 +131,14 @@ echo "deb [signed-by=/etc/apt/keyrings/bruno.gpg] http://debian.usebruno.com/ br
 sudo apt update
 sudo apt install bruno --yes
 
+# uv (Python package manager)
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
 # Claude Code
 curl -fsSL https://claude.ai/install.sh | bash
 
 # OpenCode
-sudo npm i -g opencode-ai
+sudo npm install --global opencode-ai
+
+# Redocly CLI
+sudo npm install --global @redocly/cli
